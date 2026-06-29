@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us — Serenova Yoga &amp; Wellness Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sage:       #7a9e7e;
+      --sage-light: #b5cfb7;
+      --clay:       #c9795a;
+      --cream:      #f5f0e8;
+      --deep:       #1a1a2e;
+      --charcoal:   #2d2d2d;
+      --muted:      #7a7a7a;
+      --white:      #ffffff;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+      --nav-h: 72px;
+      --radius: 4px;
+      --transition: all 0.35s ease;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--cream); color: var(--charcoal); overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── NAVBAR (same as index) ── */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; width: 100%;
+      height: var(--nav-h); background: rgba(26,26,46,0.97);
+      backdrop-filter: blur(12px);
+      display: flex; align-items: center; padding: 0 40px;
+      z-index: 1000; transition: box-shadow 0.3s;
+    }
+    #navbar.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.3); }
+    .nav-logo { font-family: var(--font-display); font-size: 22px; font-weight: 300; letter-spacing: 0.15em; color: var(--cream); }
+    .nav-logo span { color: var(--sage); font-style: italic; }
+    .nav-links { display: flex; align-items: center; gap: 8px; margin: 0 auto; list-style: none; }
+    .nav-links a { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,240,232,0.75); padding: 6px 14px; transition: var(--transition); }
+    .nav-links a:hover, .nav-links a.active { color: var(--sage); }
+    .nav-item { position: relative; }
+    .nav-item > a .chevron { margin-left: 5px; font-size: 10px; transition: transform 0.3s; display: inline-block; }
+    .nav-item:hover > a .chevron { transform: rotate(180deg); }
+    .dropdown { position: absolute; top: calc(100% + 8px); left: 0; background: var(--deep); border: 1px solid rgba(122,158,126,0.2); border-radius: 4px; min-width: 180px; opacity: 0; pointer-events: none; transform: translateY(-8px); transition: opacity 0.25s ease, transform 0.25s ease; overflow: hidden; }
+    .nav-item:hover .dropdown { opacity: 1; pointer-events: all; transform: translateY(0); }
+    .dropdown a { display: block; padding: 10px 18px; font-size: 13px; color: rgba(245,240,232,0.75); border-bottom: 1px solid rgba(255,255,255,0.05); transition: var(--transition); }
+    .dropdown a:last-child { border-bottom: none; }
+    .dropdown a:hover { color: var(--sage); background: rgba(122,158,126,0.08); }
+    .nav-cta { background: var(--sage) !important; color: var(--deep) !important; padding: 9px 22px !important; border-radius: var(--radius); font-weight: 500 !important; }
+    .nav-cta:hover { background: var(--sage-light) !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; margin-left: auto; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--cream); transition: var(--transition); border-radius: 2px; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    #mobile-menu { position: fixed; inset: 0; background: var(--deep); z-index: 999; display: flex; flex-direction: column; padding: var(--nav-h) 0 40px; overflow-y: auto; opacity: 0; pointer-events: none; transform: translateX(100%); transition: opacity 0.35s ease, transform 0.35s ease; }
+    #mobile-menu.open { opacity: 1; pointer-events: all; transform: translateX(0); }
+    body.menu-open { overflow: hidden; }
+    .mobile-nav-links { list-style: none; padding: 20px 32px; flex: 1; }
+    .mobile-nav-links li { border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .mobile-nav-links a { display: block; padding: 16px 0; font-size: 18px; color: var(--cream); font-family: var(--font-display); font-weight: 300; letter-spacing: 0.08em; transition: color 0.2s; }
+    .mobile-nav-links a:hover { color: var(--sage); }
+    .mobile-submenu { padding: 0 0 8px 16px; }
+    .mobile-submenu a { font-size: 14px; padding: 10px 0; color: rgba(245,240,232,0.6); font-family: var(--font-body); }
+    .mobile-cta-wrap { padding: 24px 32px 0; }
+    .mobile-cta { display: block; width: 100%; background: var(--sage); color: var(--deep); text-align: center; padding: 14px; font-size: 14px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; border-radius: var(--radius); }
+    .mobile-close { position: absolute; top: 22px; right: 20px; background: none; border: none; cursor: pointer; color: var(--cream); font-size: 28px; line-height: 1; }
+
+    /* ── HERO ── */
+    #contact-hero {
+      min-height: 340px;
+      padding-top: var(--nav-h);
+      background: linear-gradient(160deg, #1a1a2e 0%, #0f3460 100%);
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+    }
+    #contact-hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='1' fill='rgba(122,158,126,0.3)'/%3E%3C/svg%3E") repeat;
+      opacity: 0.4;
+    }
+    .hero-inner { max-width: 1200px; margin: 0 auto; padding: 60px 40px; position: relative; z-index: 1; }
+    .breadcrumb { font-size: 12px; color: rgba(245,240,232,0.45); margin-bottom: 18px; letter-spacing: 0.1em; }
+    .breadcrumb a { color: var(--sage); }
+    .breadcrumb span { margin: 0 8px; }
+    .hero-title { font-family: var(--font-display); font-size: clamp(40px, 6vw, 72px); font-weight: 300; color: var(--cream); line-height: 1.1; }
+    .hero-title em { font-style: italic; color: var(--sage); }
+    .hero-sub { font-size: 15px; line-height: 1.7; color: rgba(245,240,232,0.55); margin-top: 16px; max-width: 460px; }
+
+    /* ── CONTACT BODY ── */
+    #contact-body {
+      max-width: 1200px; margin: 0 auto;
+      padding: 80px 40px;
+      display: grid; grid-template-columns: 1fr 1.6fr;
+      gap: 64px; align-items: start;
+    }
+
+    /* Contact Info */
+    .contact-info-section {}
+    .section-eyebrow { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--clay); margin-bottom: 14px; }
+    .info-title { font-family: var(--font-display); font-size: 32px; font-weight: 300; color: var(--deep); line-height: 1.2; margin-bottom: 28px; }
+    .info-title em { font-style: italic; color: var(--sage); }
+
+    .info-card {
+      background: white; border-radius: 6px;
+      border: 1px solid rgba(122,158,126,0.15);
+      padding: 28px; margin-bottom: 16px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+    }
+    .info-card-title { font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.15em; color: var(--deep); margin-bottom: 16px; }
+    .info-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+    .info-row:last-child { margin-bottom: 0; }
+    .info-icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(122,158,126,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .info-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 3px; }
+    .info-value { font-size: 14px; color: var(--charcoal); line-height: 1.5; }
+    .info-value a { color: var(--sage); transition: color 0.2s; text-decoration: underline; text-underline-offset: 3px; }
+    .info-value a:hover { color: var(--clay); }
+
+    .socials-row { display: flex; gap: 10px; margin-top: 8px; }
+    .social-btn {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(122,158,126,0.1);
+      border: 1px solid rgba(122,158,126,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: var(--sage);
+      transition: var(--transition); cursor: pointer;
+    }
+    .social-btn:hover { background: var(--sage); color: var(--deep); }
+
+    /* Hours */
+    .hours-table { width: 100%; }
+    .hours-table tr td { font-size: 13px; padding: 5px 0; color: var(--charcoal); }
+    .hours-table tr td:last-child { text-align: right; color: var(--muted); }
+    .hours-table tr.today td { color: var(--sage); font-weight: 500; }
+
+    /* Contact Form */
+    .contact-form-section {}
+    .form-title { font-family: var(--font-display); font-size: 32px; font-weight: 300; color: var(--deep); margin-bottom: 8px; }
+    .form-title em { font-style: italic; color: var(--sage); }
+    .form-subtitle { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 32px; }
+
+    .contact-form { background: white; border-radius: 6px; padding: 40px; border: 1px solid rgba(122,158,126,0.12); box-shadow: 0 4px 30px rgba(0,0,0,0.06); }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-group { margin-bottom: 22px; }
+    .form-label { display: block; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.15em; color: var(--charcoal); margin-bottom: 8px; }
+    .form-label .req { color: var(--clay); margin-left: 2px; }
+    .form-input, .form-select, .form-textarea {
+      width: 100%; padding: 12px 14px;
+      background: var(--cream); border: 1px solid rgba(122,158,126,0.2);
+      border-radius: var(--radius); font-family: var(--font-body);
+      font-size: 14px; color: var(--charcoal);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none; -webkit-appearance: none; appearance: none;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--sage);
+      box-shadow: 0 0 0 3px rgba(122,158,126,0.12);
+    }
+    .form-input.error, .form-textarea.error { border-color: var(--clay); box-shadow: 0 0 0 3px rgba(201,121,90,0.1); }
+    .error-msg { font-size: 12px; color: var(--clay); margin-top: 5px; display: none; }
+    .error-msg.show { display: block; }
+    .form-textarea { resize: vertical; min-height: 120px; }
+    .form-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0l6 8 6-8z' fill='%237a7a7a'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; cursor: pointer; }
+    .char-count { font-size: 11px; color: var(--muted); text-align: right; margin-top: 4px; }
+    .form-submit {
+      width: 100%; padding: 15px; background: var(--sage);
+      color: var(--deep); border: none; border-radius: var(--radius);
+      font-family: var(--font-body); font-size: 13px; font-weight: 500;
+      letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer;
+      transition: var(--transition); margin-top: 8px;
+    }
+    .form-submit:hover { background: var(--sage-light); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(122,158,126,0.3); }
+    .form-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .form-note { font-size: 12px; color: var(--muted); text-align: center; margin-top: 14px; line-height: 1.5; }
+
+    /* Success state */
+    .form-success {
+      display: none; text-align: center; padding: 40px 20px;
+    }
+    .form-success.show { display: block; }
+    .success-icon { font-size: 48px; margin-bottom: 16px; }
+    .success-title { font-family: var(--font-display); font-size: 28px; font-weight: 300; color: var(--deep); margin-bottom: 10px; }
+    .success-msg { font-size: 15px; color: var(--muted); line-height: 1.6; }
+
+    /* ── MAP ── */
+    #map-section {
+      padding: 0 40px 80px;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .map-title { font-family: var(--font-display); font-size: 28px; font-weight: 300; color: var(--deep); margin-bottom: 24px; text-align: center; }
+    .map-title em { font-style: italic; color: var(--sage); }
+    .map-wrap {
+      border-radius: 6px; overflow: hidden;
+      border: 1px solid rgba(122,158,126,0.2);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+      height: 380px;
+    }
+    .map-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
+
+    /* ── FAQ ── */
+    #faq {
+      background: var(--deep);
+      padding: 80px 40px;
+    }
+    .faq-inner { max-width: 800px; margin: 0 auto; }
+    #faq .section-eyebrow { color: var(--sage); }
+    .faq-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 44px); font-weight: 300; color: var(--cream); line-height: 1.2; margin-bottom: 40px; }
+    .faq-title em { font-style: italic; color: var(--sage); }
+    .faq-item { border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .faq-question {
+      width: 100%; background: none; border: none; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 0; text-align: left;
+      font-family: var(--font-body); font-size: 15px;
+      color: rgba(245,240,232,0.85); transition: color 0.2s;
+    }
+    .faq-question:hover { color: var(--sage); }
+    .faq-question.open { color: var(--sage); }
+    .faq-chevron { font-size: 18px; transition: transform 0.3s; color: var(--sage); flex-shrink: 0; }
+    .faq-question.open .faq-chevron { transform: rotate(45deg); }
+    .faq-answer {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+    }
+    .faq-answer.open { max-height: 300px; padding-bottom: 20px; }
+    .faq-answer p { font-size: 14px; line-height: 1.8; color: rgba(245,240,232,0.5); }
+
+    /* ── FOOTER ── */
+    #footer { background: #111122; padding: 64px 40px 32px; }
+    .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .footer-brand-name { font-family: var(--font-display); font-size: 24px; font-weight: 300; letter-spacing: 0.1em; color: var(--cream); }
+    .footer-brand-name span { color: var(--sage); font-style: italic; }
+    .footer-tagline { font-size: 13px; color: rgba(245,240,232,0.4); line-height: 1.7; margin-top: 12px; max-width: 240px; }
+    .footer-col-title { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--sage); margin-bottom: 20px; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a { font-size: 14px; color: rgba(245,240,232,0.5); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--cream); }
+    .footer-bottom { max-width: 1200px; margin: 28px auto 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .footer-copy { font-size: 12px; color: rgba(245,240,232,0.3); }
+    .footer-socials { display: flex; gap: 12px; }
+    .footer-socials a { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.35); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: rgba(245,240,232,0.9); transition: var(--transition); background: rgba(255,255,255,0.07); }
+    .footer-socials a:hover { border-color: var(--sage); color: var(--sage); background: rgba(122,158,126,0.15); transform: translateY(-2px); }
+    .footer-legal { display: flex; gap: 20px; }
+    .footer-legal a { font-size: 12px; color: rgba(245,240,232,0.3); transition: color 0.2s; }
+    .footer-legal a:hover { color: rgba(245,240,232,0.6); }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      #contact-body { grid-template-columns: 1fr; gap: 48px; }
+    }
+    @media (max-width: 768px) {
+      :root { --nav-h: 64px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      #navbar { padding: 0 20px; }
+      .hero-inner, #contact-body, #map-section { padding-left: 20px; padding-right: 20px; }
+      .form-row { grid-template-columns: 1fr; }
+      .contact-form { padding: 28px 20px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      #faq { padding: 60px 20px; }
+    }
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MOBILE MENU -->
+  <div id="mobile-menu" aria-label="Mobile navigation">
+    <button class="mobile-close" id="mobile-close" aria-label="Close menu">✕</button>
+    <ul class="mobile-nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li>
+        <a href="classes.html">Classes ▾</a>
+        <div class="mobile-submenu">
+          <a href="classes.html#hatha">Hatha Yoga</a>
+          <a href="classes.html#vinyasa">Vinyasa Flow</a>
+          <a href="classes.html#yin">Yin &amp; Restore</a>
+          <a href="classes.html#meditation">Meditation</a>
+          <a href="classes.html#sculpt">Yoga Sculpt</a>
+          <a href="classes.html#prenatal">Pre/Postnatal</a>
+        </div>
+      </li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="schedule.html">Schedule</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+    <div class="mobile-cta-wrap">
+      <a href="schedule.html#book" class="mobile-cta">Book a Free Class</a>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo">Seren<span>ova</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="nav-item">
+        <a href="classes.html">Classes <span class="chevron">▾</span></a>
+        <div class="dropdown">
+          <a href="classes.html#hatha">Hatha Yoga</a>
+          <a href="classes.html#vinyasa">Vinyasa Flow</a>
+          <a href="classes.html#yin">Yin &amp; Restore</a>
+          <a href="classes.html#meditation">Meditation</a>
+          <a href="classes.html#sculpt">Yoga Sculpt</a>
+          <a href="classes.html#prenatal">Pre/Postnatal</a>
+        </div>
+      </li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="schedule.html">Schedule</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+      <li><a href="schedule.html#book" class="nav-cta">Book Free Class</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section id="contact-hero">
+    <div class="hero-inner">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <span>Contact Us</span>
+      </nav>
+      <h1 class="hero-title">Let's <em>connect</em></h1>
+      <p class="hero-sub">We'd love to hear from you — whether you have a question about classes, memberships, or just want to say hello.</p>
+    </div>
+  </section>
+
+  <!-- CONTACT BODY -->
+  <div id="contact-body">
+
+    <!-- LEFT: INFO -->
+    <div class="contact-info-section">
+      <p class="section-eyebrow reveal">Reach us</p>
+      <h2 class="info-title reveal">Our doors are<br/>always <em>open</em></h2>
+
+      <div class="info-card reveal">
+        <div class="info-card-title">Headquarters</div>
+        <div class="info-row">
+          <div class="info-icon">📍</div>
+          <div>
+            <div class="info-label">Address</div>
+            <div class="info-value">Serenova Wellness, 42 Stillwater Lane<br/>Koramangala, Bengaluru – 560034</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">📞</div>
+          <div>
+            <div class="info-label">Phone</div>
+            <div class="info-value"><a href="tel:+918012345678">+91 80 1234 5678</a></div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">✉️</div>
+          <div>
+            <div class="info-label">Email</div>
+            <div class="info-value"><a href="mailto:hello@serenova.in">hello@serenova.in</a></div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">🌐</div>
+          <div>
+            <div class="info-label">Social Media</div>
+            <div class="socials-row">
+              <a href="javascript:void(0)" class="social-btn" aria-label="Instagram">&#9670;</a>
+              <a href="javascript:void(0)" class="social-btn" aria-label="Facebook">f</a>
+              <a href="javascript:void(0)" class="social-btn" aria-label="YouTube">▶</a>
+              <a href="javascript:void(0)" class="social-btn" aria-label="LinkedIn">in</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card reveal">
+        <div class="info-card-title">Studio Hours</div>
+        <table class="hours-table">
+          <tr class="today">
+            <td>Monday</td><td>6:00 AM – 9:00 PM</td>
+          </tr>
+          <tr><td>Tuesday</td><td>6:00 AM – 9:00 PM</td></tr>
+          <tr><td>Wednesday</td><td>6:00 AM – 9:00 PM</td></tr>
+          <tr><td>Thursday</td><td>6:00 AM – 9:00 PM</td></tr>
+          <tr><td>Friday</td><td>6:00 AM – 8:00 PM</td></tr>
+          <tr><td>Saturday</td><td>7:00 AM – 6:00 PM</td></tr>
+          <tr><td>Sunday</td><td>8:00 AM – 4:00 PM</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- RIGHT: FORM -->
+    <div class="contact-form-section">
+      <p class="section-eyebrow reveal">Send a message</p>
+      <h2 class="form-title reveal">We respond within<br/><em>24 hours</em></h2>
+      <p class="form-subtitle reveal">Use this form for class enquiries, membership questions, or anything else on your mind.</p>
+
+      <div class="contact-form reveal">
+        <form id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="fname">Name <span class="req">*</span></label>
+              <input class="form-input" type="text" id="fname" name="name" placeholder="Your full name" required autocomplete="name"/>
+              <div class="error-msg" id="err-name">Please enter your name.</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="femail">Email <span class="req">*</span></label>
+              <input class="form-input" type="email" id="femail" name="email" placeholder="you@example.com" required autocomplete="email"/>
+              <div class="error-msg" id="err-email">Please enter a valid email address.</div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="fphone">Mobile Number</label>
+              <input class="form-input" type="tel" id="fphone" name="phone" placeholder="+91 00000 00000" autocomplete="tel"/>
+              <div class="error-msg" id="err-phone">Please enter a valid 10-digit mobile number.</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fsubject">Subject <span class="req">*</span></label>
+              <select class="form-select form-input" id="fsubject" name="subject" required>
+                <option value="">Select a topic…</option>
+                <option>Class Enquiry</option>
+                <option>Membership Plans</option>
+                <option>Trial / First Visit</option>
+                <option>Private Sessions</option>
+                <option>Corporate Wellness</option>
+                <option>General Question</option>
+              </select>
+              <div class="error-msg" id="err-subject">Please select a subject.</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="fmessage">Message <span class="req">*</span></label>
+            <textarea class="form-textarea" id="fmessage" name="message" placeholder="Tell us how we can help…" required maxlength="600"></textarea>
+            <div class="char-count"><span id="charCount">0</span> / 600</div>
+            <div class="error-msg" id="err-message">Please write a message (at least 10 characters).</div>
+          </div>
+          <button type="submit" class="form-submit" id="submitBtn">Send Message →</button>
+          <p class="form-note">We respect your privacy. Your details are never shared with third parties.</p>
+        </form>
+        <div class="form-success" id="formSuccess">
+          <div class="success-icon">🌿</div>
+          <div class="success-title">Message received</div>
+          <p class="success-msg">Thank you for reaching out. A member of our team will get back to you within 24 hours. In the meantime, feel free to explore our class schedule.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAP -->
+  <div id="map-section">
+    <h3 class="map-title reveal">Visit <em>our studio</em></h3>
+    <div class="map-wrap reveal">
+      <!-- OpenStreetMap embed pointing to Koramangala, Bengaluru -->
+      <iframe
+        src="https://www.openstreetmap.org/export/embed.html?bbox=77.6150,12.9250,77.6350,12.9380&layer=mapnik&marker=12.9316,77.6245"
+        title="Serenova Studio Location – Koramangala, Bengaluru"
+        loading="lazy"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="faq-inner">
+      <p class="section-eyebrow reveal">FAQ</p>
+      <h2 class="faq-title reveal">Common <em>questions</em></h2>
+
+      <div class="faq-item reveal">
+        <button class="faq-question" aria-expanded="false">
+          Do I need any experience to join a class?
+          <span class="faq-chevron">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Not at all. Every class at Serenova welcomes beginners. Our teachers offer modifications for every pose, and we'll never make you feel out of place. Just bring curiosity and an open mind.</p>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question" aria-expanded="false">
+          What should I bring to my first class?
+          <span class="faq-chevron">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Comfortable, stretchy clothing and a water bottle are all you need. We provide mats, blocks, and straps at no extra charge. You're welcome to bring your own mat if you prefer.</p>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question" aria-expanded="false">
+          How do I claim my free introductory class?
+          <span class="faq-chevron">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Simply fill in the contact form above and select "Trial / First Visit" as the subject, or call us directly. We'll reserve a spot for you in the next available class that suits your schedule.</p>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question" aria-expanded="false">
+          Do you offer corporate or group wellness packages?
+          <span class="faq-chevron">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Yes! We partner with companies of all sizes to deliver on-site and at-studio wellness programmes. Get in touch via the form to discuss a tailored package for your team.</p>
+        </div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question" aria-expanded="false">
+          What is your cancellation policy?
+          <span class="faq-chevron">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>We ask for at least 4 hours' notice to cancel a booked class. Late cancellations or no-shows on membership plans use one class credit. We understand life happens — please just let us know.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">Seren<span>ova</span></div>
+        <p class="footer-tagline">A sanctuary for mindful movement and conscious living.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="schedule.html">Schedule</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Classes</div>
+        <ul class="footer-links">
+          <li><a href="#">Hatha Yoga</a></li>
+          <li><a href="#">Vinyasa Flow</a></li>
+          <li><a href="#">Yin &amp; Restore</a></li>
+          <li><a href="#">Meditation</a></li>
+          <li><a href="#">Pre/Postnatal</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Support</div>
+        <ul class="footer-links">
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Membership Plans</a></li>
+          <li><a href="#">Gift Cards</a></li>
+          <li><a href="#">Wellness Blog</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Serenova Yoga &amp; Wellness. All rights reserved.</p>
+      <div class="footer-socials">
+        <a href="javascript:void(0)" onclick="return false" aria-label="Instagram" title="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="javascript:void(0)" onclick="return false" aria-label="Facebook" title="Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="javascript:void(0)" onclick="return false" aria-label="YouTube" title="YouTube">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+        </a>
+        <a href="javascript:void(0)" onclick="return false" aria-label="LinkedIn" title="LinkedIn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+      </div>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms &amp; Conditions</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ── NAVBAR SCROLL ── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    /* ── MOBILE MENU ── */
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileClose = document.getElementById('mobile-close');
+    const openMenu = () => { mobileMenu.classList.add('open'); hamburger.classList.add('open'); document.body.classList.add('menu-open'); hamburger.setAttribute('aria-expanded','true'); };
+    const closeMenu = () => { mobileMenu.classList.remove('open'); hamburger.classList.remove('open'); document.body.classList.remove('menu-open'); hamburger.setAttribute('aria-expanded','false'); };
+    hamburger.addEventListener('click', () => mobileMenu.classList.contains('open') ? closeMenu() : openMenu());
+    mobileClose.addEventListener('click', closeMenu);
+    mobileMenu.querySelectorAll('a').forEach(l => l.addEventListener('click', closeMenu));
+
+    /* ── CHAR COUNT ── */
+    const msg = document.getElementById('fmessage');
+    const counter = document.getElementById('charCount');
+    msg.addEventListener('input', () => { counter.textContent = msg.value.length; });
+
+    /* ── FORM VALIDATION ── */
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      let valid = true;
+
+      const name = document.getElementById('fname');
+      const email = document.getElementById('femail');
+      const phone = document.getElementById('fphone');
+      const subject = document.getElementById('fsubject');
+      const message = document.getElementById('fmessage');
+
+      const showErr = (input, errId) => { input.classList.add('error'); document.getElementById(errId).classList.add('show'); valid = false; };
+      const clearErr = (input, errId) => { input.classList.remove('error'); document.getElementById(errId).classList.remove('show'); };
+
+      if (!name.value.trim()) { showErr(name, 'err-name'); } else { clearErr(name, 'err-name'); }
+
+      const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRx.test(email.value.trim())) { showErr(email, 'err-email'); } else { clearErr(email, 'err-email'); }
+
+      if (phone.value.trim() && !/^\+?[\d\s\-]{10,14}$/.test(phone.value.trim())) { showErr(phone, 'err-phone'); } else { clearErr(phone, 'err-phone'); }
+
+      if (!subject.value) { showErr(subject, 'err-subject'); } else { clearErr(subject, 'err-subject'); }
+
+      if (message.value.trim().length < 10) { showErr(message, 'err-message'); } else { clearErr(message, 'err-message'); }
+
+      if (valid) {
+        const btn = document.getElementById('submitBtn');
+        btn.textContent = 'Sending…'; btn.disabled = true;
+        setTimeout(() => {
+          document.getElementById('contactForm').style.display = 'none';
+          document.getElementById('formSuccess').classList.add('show');
+        }, 1200);
+      }
+    });
+
+    /* ── CLEAR ERROR ON INPUT ── */
+    document.querySelectorAll('.form-input, .form-textarea, .form-select').forEach(el => {
+      el.addEventListener('input', () => {
+        el.classList.remove('error');
+        const id = el.id.replace('f','err-');
+        const errEl = document.getElementById(id);
+        if (errEl) errEl.classList.remove('show');
+      });
+    });
+
+    /* ── FAQ ── */
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const answer = btn.nextElementSibling;
+        const isOpen = btn.classList.contains('open');
+        document.querySelectorAll('.faq-question.open').forEach(b => {
+          b.classList.remove('open');
+          b.nextElementSibling.classList.remove('open');
+          b.setAttribute('aria-expanded','false');
+        });
+        if (!isOpen) {
+          btn.classList.add('open');
+          answer.classList.add('open');
+          btn.setAttribute('aria-expanded','true');
+        }
+      });
+    });
+
+    /* ── SCROLL REVEAL ── */
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

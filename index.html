@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Serenova Yoga & Wellness Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ─── CSS TOKENS ─── */
+    :root {
+      --sage:       #7a9e7e;
+      --sage-light: #b5cfb7;
+      --clay:       #c9795a;
+      --cream:      #f5f0e8;
+      --deep:       #1a1a2e;
+      --charcoal:   #2d2d2d;
+      --muted:      #7a7a7a;
+      --white:      #ffffff;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+      --nav-h: 72px;
+      --radius: 4px;
+      --transition: all 0.35s ease;
+    }
+
+    /* ─── RESET ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--cream);
+      color: var(--charcoal);
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ──────────────────────────────────────
+       LOADER
+    ────────────────────────────────────── */
+    #loader {
+      position: fixed; inset: 0;
+      background: var(--deep);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .loader-logo {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 4vw, 32px);
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      color: var(--cream);
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards;
+    }
+    .loader-logo span { color: var(--sage); font-style: italic; }
+
+    .loader-spinner {
+      margin-top: 28px;
+      width: 56px; height: 56px;
+      position: relative;
+    }
+    .loader-spinner svg {
+      width: 100%; height: 100%;
+      animation: spinIt 2s linear infinite;
+    }
+    .loader-spinner circle.track {
+      fill: none; stroke: #323c50; stroke-width: 3;
+    }
+    .loader-spinner circle.active {
+      fill: none;
+      stroke: var(--sage);
+      stroke-width: 3;
+      stroke-dasharray: 120;
+      stroke-dashoffset: 90;
+      stroke-linecap: round;
+    }
+
+    .loader-text {
+      margin-top: 20px;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #889fb0;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.4s forwards;
+    }
+
+    @keyframes spinIt { to { transform: rotate(360deg); } }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ──────────────────────────────────────
+       NAVBAR
+    ────────────────────────────────────── */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      width: 100%; height: var(--nav-h);
+      background: rgba(26, 26, 46, 0.97);
+      backdrop-filter: blur(12px);
+      display: flex; align-items: center;
+      padding: 0 40px;
+      z-index: 1000;
+      transition: box-shadow 0.3s;
+    }
+    #navbar.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.3); }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 22px; font-weight: 300;
+      letter-spacing: 0.15em;
+      color: var(--cream);
+      white-space: nowrap;
+    }
+    .nav-logo span { color: var(--sage); font-style: italic; }
+    .nav-logo:hover { opacity: 0.85; }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 8px;
+      margin: 0 auto;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 13px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(245,240,232,0.75);
+      padding: 6px 14px;
+      position: relative;
+      transition: var(--transition);
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--sage); }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: 0; left: 50%; right: 50%;
+      height: 1px; background: var(--sage);
+      transition: left 0.3s ease, right 0.3s ease;
+    }
+    .nav-links a:hover::after, .nav-links a.active::after { left: 14px; right: 14px; }
+
+    /* Dropdown */
+    .nav-item { position: relative; }
+    .nav-item > a .chevron { margin-left: 5px; font-size: 10px; transition: transform 0.3s; display: inline-block; }
+    .nav-item:hover > a .chevron { transform: rotate(180deg); }
+    .dropdown {
+      position: absolute; top: calc(100% + 8px); left: 0;
+      background: var(--deep);
+      border: 1px solid rgba(122,158,126,0.2);
+      border-radius: 4px;
+      min-width: 180px;
+      opacity: 0; pointer-events: none;
+      transform: translateY(-8px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      overflow: hidden;
+    }
+    .nav-item:hover .dropdown { opacity: 1; pointer-events: all; transform: translateY(0); }
+    .dropdown a {
+      display: block; padding: 10px 18px;
+      font-size: 13px; color: rgba(245,240,232,0.75);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: var(--transition);
+    }
+    .dropdown a:last-child { border-bottom: none; }
+    .dropdown a:hover { color: var(--sage); background: rgba(122,158,126,0.08); }
+
+    .nav-cta {
+      background: var(--sage);
+      color: var(--deep) !important;
+      padding: 9px 22px !important;
+      border-radius: var(--radius);
+      font-weight: 500 !important;
+      letter-spacing: 0.05em !important;
+    }
+    .nav-cta:hover { background: var(--sage-light) !important; color: var(--deep) !important; }
+    .nav-cta::after { display: none !important; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column; gap: 5px;
+      background: none; border: none;
+      cursor: pointer; padding: 4px; margin-left: auto;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--cream);
+      transition: var(--transition);
+      border-radius: 2px;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile Menu Overlay */
+    #mobile-menu {
+      position: fixed; inset: 0;
+      background: var(--deep);
+      z-index: 999;
+      display: flex; flex-direction: column;
+      padding: var(--nav-h) 0 40px;
+      overflow-y: auto;
+      opacity: 0; pointer-events: none;
+      transform: translateX(100%);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    #mobile-menu.open {
+      opacity: 1; pointer-events: all;
+      transform: translateX(0);
+    }
+    body.menu-open { overflow: hidden; }
+
+    .mobile-nav-links { list-style: none; padding: 20px 32px; flex: 1; }
+    .mobile-nav-links li { border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .mobile-nav-links a {
+      display: block; padding: 16px 0;
+      font-size: 18px; color: var(--cream);
+      font-family: var(--font-display);
+      font-weight: 300; letter-spacing: 0.08em;
+      transition: color 0.2s;
+    }
+    .mobile-nav-links a:hover { color: var(--sage); }
+    .mobile-submenu { padding: 0 0 8px 16px; }
+    .mobile-submenu a { font-size: 14px; padding: 10px 0; color: rgba(245,240,232,0.6); font-family: var(--font-body); }
+    .mobile-cta-wrap { padding: 24px 32px 0; }
+    .mobile-cta {
+      display: block; width: 100%;
+      background: var(--sage); color: var(--deep);
+      text-align: center; padding: 14px;
+      font-size: 14px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+      border-radius: var(--radius);
+    }
+    .mobile-close {
+      position: absolute; top: 22px; right: 20px;
+      background: none; border: none; cursor: pointer;
+      color: var(--cream); font-size: 28px; line-height: 1;
+    }
+
+    /* ──────────────────────────────────────
+       HERO
+    ────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      padding-top: var(--nav-h);
+      background: linear-gradient(160deg, #1a1a2e 0%, #0f3460 60%, #1a1a2e 100%);
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg-pattern {
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 80% 20%, rgba(122,158,126,0.12) 0%, transparent 50%),
+        radial-gradient(circle at 10% 80%, rgba(201,121,90,0.08) 0%, transparent 40%);
+      pointer-events: none;
+    }
+    /* Decorative leaf SVG circles */
+    .hero-deco {
+      position: absolute; right: -60px; top: 50%;
+      transform: translateY(-50%);
+      width: 620px; height: 620px;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 80px 40px;
+      position: relative; z-index: 1;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--sage);
+      border-left: 2px solid var(--sage);
+      padding-left: 12px;
+      margin-bottom: 28px;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 7vw, 88px);
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1.1;
+      max-width: 700px;
+    }
+    .hero-title em { font-style: italic; color: var(--sage); }
+    .hero-desc {
+      margin-top: 28px;
+      font-size: 16px; line-height: 1.8;
+      color: rgba(245,240,232,0.65);
+      max-width: 480px;
+    }
+    .hero-actions {
+      margin-top: 44px;
+      display: flex; gap: 16px; flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--sage); color: var(--deep);
+      padding: 14px 36px; font-size: 13px;
+      font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+      border-radius: var(--radius); border: none; cursor: pointer;
+      transition: var(--transition);
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--sage-light); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--cream);
+      padding: 13px 36px; font-size: 13px;
+      font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase;
+      border-radius: var(--radius); border: 1px solid rgba(245,240,232,0.3);
+      cursor: pointer; transition: var(--transition);
+      display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--sage); color: var(--sage); transform: translateY(-2px); }
+
+    .hero-stats {
+      display: flex; gap: 48px; flex-wrap: wrap;
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 44px; font-weight: 300; color: var(--cream);
+      line-height: 1;
+    }
+    .stat-num span { color: var(--sage); }
+    .stat-label {
+      font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(245,240,232,0.45); margin-top: 6px;
+    }
+
+    /* ──────────────────────────────────────
+       ABOUT
+    ────────────────────────────────────── */
+    #about {
+      padding: 100px 40px;
+      background: var(--cream);
+    }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-eyebrow {
+      font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--clay); margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(34px, 5vw, 56px);
+      font-weight: 300; line-height: 1.15;
+      color: var(--deep);
+    }
+    .section-title em { font-style: italic; color: var(--sage); }
+
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+      margin-top: 60px;
+    }
+    .about-image-wrap {
+      position: relative;
+    }
+    .about-img-main {
+      width: 100%; aspect-ratio: 4/5;
+      object-fit: cover; border-radius: 2px;
+      background: linear-gradient(135deg, #7a9e7e33, #c9795a22);
+    }
+    /* Placeholder image using CSS */
+    .img-placeholder {
+      width: 100%; aspect-ratio: 4/5;
+      background: linear-gradient(135deg, #b5cfb7 0%, #7a9e7e 50%, #4a7a52 100%);
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .img-placeholder::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='30' r='12' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='1.5'/%3E%3Cellipse cx='50' cy='75' rx='20' ry='28' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='1.5'/%3E%3Cline x1='50' y1='42' x2='50' y2='55' stroke='rgba(255,255,255,0.3)' stroke-width='1.5'/%3E%3Cline x1='30' y1='52' x2='70' y2='52' stroke='rgba(255,255,255,0.3)' stroke-width='1.5'/%3E%3C/svg%3E") center center / 80px repeat;
+      opacity: 0.4;
+    }
+    .about-badge {
+      position: absolute; bottom: -20px; right: -20px;
+      width: 120px; height: 120px;
+      background: var(--clay);
+      border-radius: 50%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: white; text-align: center;
+      box-shadow: 0 8px 30px rgba(201,121,90,0.4);
+    }
+    .about-badge .badge-num {
+      font-family: var(--font-display);
+      font-size: 28px; font-weight: 300; line-height: 1;
+    }
+    .about-badge .badge-label {
+      font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+      margin-top: 4px; opacity: 0.9;
+    }
+
+    .about-text { display: flex; flex-direction: column; justify-content: center; }
+    .about-body {
+      font-size: 16px; line-height: 1.9;
+      color: #4a4a4a; margin-top: 24px;
+    }
+    .about-pillars {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 20px; margin-top: 40px;
+    }
+    .pillar {
+      padding: 20px;
+      border: 1px solid rgba(122,158,126,0.2);
+      border-radius: 4px;
+    }
+    .pillar-icon { font-size: 24px; margin-bottom: 10px; }
+    .pillar-title { font-size: 13px; font-weight: 500; letter-spacing: 0.05em; color: var(--deep); margin-bottom: 6px; }
+    .pillar-desc { font-size: 13px; line-height: 1.6; color: var(--muted); }
+
+    /* ──────────────────────────────────────
+       SERVICES / CLASSES
+    ────────────────────────────────────── */
+    #services {
+      padding: 100px 40px;
+      background: var(--deep);
+    }
+    #services .section-title { color: var(--cream); }
+    #services .section-eyebrow { color: var(--sage); }
+
+    .services-intro {
+      font-size: 16px; line-height: 1.8;
+      color: rgba(245,240,232,0.55);
+      max-width: 560px; margin-top: 20px;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px; margin-top: 56px;
+    }
+    .service-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(122,158,126,0.15);
+      border-radius: 4px;
+      padding: 36px 28px;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .service-card:hover {
+      background: rgba(122,158,126,0.08);
+      border-color: rgba(122,158,126,0.4);
+      transform: translateY(-4px);
+    }
+    .service-icon {
+      width: 48px; height: 48px;
+      background: rgba(122,158,126,0.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 20px;
+    }
+    .service-name {
+      font-family: var(--font-display);
+      font-size: 22px; font-weight: 300;
+      color: var(--cream); margin-bottom: 10px;
+    }
+    .service-desc {
+      font-size: 14px; line-height: 1.7;
+      color: rgba(245,240,232,0.5);
+    }
+    .service-tag {
+      display: inline-block; margin-top: 16px;
+      font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--sage);
+      border: 1px solid rgba(122,158,126,0.3);
+      padding: 4px 10px; border-radius: 20px;
+    }
+
+    /* ──────────────────────────────────────
+       TESTIMONIALS
+    ────────────────────────────────────── */
+    #testimonials {
+      padding: 100px 40px;
+      background: var(--cream);
+    }
+    .testimonials-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; margin-top: 56px;
+    }
+    .testimonial-card {
+      background: white;
+      border-radius: 4px;
+      padding: 36px 28px;
+      box-shadow: 0 2px 24px rgba(0,0,0,0.05);
+      border: 1px solid rgba(122,158,126,0.1);
+      display: flex; flex-direction: column;
+    }
+    .testimonial-quote {
+      font-size: 40px; line-height: 1; color: var(--sage-light);
+      font-family: Georgia, serif; margin-bottom: 16px;
+    }
+    .testimonial-text {
+      font-size: 15px; line-height: 1.8; color: #555;
+      flex: 1;
+      font-style: italic;
+    }
+    .testimonial-stars {
+      color: #f4b942; letter-spacing: 2px; margin-top: 20px; font-size: 14px;
+    }
+    .testimonial-author { display: flex; align-items: center; gap: 14px; margin-top: 20px; }
+    .author-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--sage-light), var(--sage));
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 18px;
+      color: white; font-weight: 300; flex-shrink: 0;
+    }
+    .author-name { font-weight: 500; font-size: 14px; color: var(--deep); }
+    .author-tag { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* ──────────────────────────────────────
+       CTA SECTION
+    ────────────────────────────────────── */
+    #cta {
+      padding: 100px 40px;
+      background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 100%);
+      position: relative; overflow: hidden;
+      text-align: center;
+    }
+    #cta::before {
+      content: '';
+      position: absolute; top: -50%; left: -20%;
+      width: 140%; height: 200%;
+      background: radial-gradient(ellipse at center, rgba(122,158,126,0.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .cta-inner { max-width: 680px; margin: 0 auto; position: relative; z-index: 1; }
+    .cta-title {
+      font-family: var(--font-display);
+      font-size: clamp(34px, 5vw, 60px);
+      font-weight: 300; line-height: 1.2;
+      color: var(--cream);
+    }
+    .cta-title em { font-style: italic; color: var(--sage); }
+    .cta-desc {
+      font-size: 16px; line-height: 1.8;
+      color: rgba(245,240,232,0.6);
+      margin-top: 20px;
+    }
+    .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 40px; }
+
+    /* ──────────────────────────────────────
+       FOOTER
+    ────────────────────────────────────── */
+    #footer {
+      background: #111122;
+      padding: 64px 40px 32px;
+    }
+    .footer-grid {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px; padding-bottom: 48px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-brand-name {
+      font-family: var(--font-display);
+      font-size: 24px; font-weight: 300; letter-spacing: 0.1em;
+      color: var(--cream);
+    }
+    .footer-brand-name span { color: var(--sage); font-style: italic; }
+    .footer-tagline {
+      font-size: 13px; color: rgba(245,240,232,0.4);
+      line-height: 1.7; margin-top: 12px; max-width: 240px;
+    }
+    .footer-subscribe { margin-top: 24px; }
+    .footer-subscribe-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--sage); margin-bottom: 10px; }
+    .subscribe-row { display: flex; gap: 0; }
+    .subscribe-input {
+      flex: 1; padding: 10px 14px; background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12); border-right: none;
+      color: var(--cream); font-size: 13px;
+      border-radius: 3px 0 0 3px; outline: none;
+    }
+    .subscribe-input::placeholder { color: rgba(245,240,232,0.3); }
+    .subscribe-btn {
+      padding: 10px 18px; background: var(--sage); border: none;
+      color: var(--deep); font-size: 12px; letter-spacing: 0.1em;
+      text-transform: uppercase; font-weight: 500; cursor: pointer;
+      border-radius: 0 3px 3px 0; transition: background 0.2s;
+    }
+    .subscribe-btn:hover { background: var(--sage-light); }
+
+    .footer-col-title {
+      font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--sage); margin-bottom: 20px;
+    }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a {
+      font-size: 14px; color: rgba(245,240,232,0.5);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--cream); }
+    .footer-links a.new-badge::after {
+      content: 'New'; font-size: 9px; background: var(--sage);
+      color: var(--deep); padding: 2px 6px; border-radius: 10px;
+      margin-left: 8px; font-weight: 500;
+    }
+
+    .footer-bottom {
+      max-width: 1200px; margin: 28px auto 0;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-copy { font-size: 12px; color: rgba(245,240,232,0.3); }
+    .footer-socials { display: flex; gap: 12px; }
+    .footer-socials a {
+      width: 40px; height: 40px;
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(245,240,232,0.9);
+      transition: var(--transition);
+      background: rgba(255,255,255,0.07);
+    }
+    .footer-socials a:hover { border-color: var(--sage); color: var(--sage); background: rgba(122,158,126,0.15); transform: translateY(-2px); }
+    .footer-legal { display: flex; gap: 20px; }
+    .footer-legal a { font-size: 12px; color: rgba(245,240,232,0.3); transition: color 0.2s; }
+    .footer-legal a:hover { color: rgba(245,240,232,0.6); }
+
+    /* ──────────────────────────────────────
+       SCROLL REVEAL UTILITY
+    ────────────────────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ──────────────────────────────────────
+       RESPONSIVE
+    ────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-badge { display: none; }
+    }
+    @media (max-width: 768px) {
+      :root { --nav-h: 64px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      #navbar { padding: 0 20px; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .hero-inner { padding: 60px 20px; }
+      #about, #services, #testimonials, #cta { padding: 70px 20px; }
+      #footer { padding: 48px 20px 24px; }
+      .about-pillars { grid-template-columns: 1fr; }
+      .hero-stats { gap: 28px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .hero-actions { flex-direction: column; }
+      .btn-primary, .btn-outline { text-align: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── LOADER ── -->
+  <div id="loader" role="status" aria-live="polite">
+    <div class="loader-logo">Seren<span>ova</span></div>
+    <div class="loader-spinner" aria-hidden="true">
+      <svg viewBox="0 0 56 56">
+        <circle class="track" cx="28" cy="28" r="22"/>
+        <circle class="active" cx="28" cy="28" r="22"/>
+      </svg>
+    </div>
+    <div class="loader-text">Preparing your sanctuary</div>
+  </div>
+
+  <!-- ── MOBILE MENU ── -->
+  <div id="mobile-menu" aria-label="Mobile navigation">
+    <button class="mobile-close" id="mobile-close" aria-label="Close menu">✕</button>
+    <ul class="mobile-nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li>
+        <a href="classes.html">Classes ▾</a>
+        <div class="mobile-submenu">
+          <a href="classes.html#hatha">Hatha Yoga</a>
+          <a href="classes.html#vinyasa">Vinyasa Flow</a>
+          <a href="classes.html#yin">Yin &amp; Restore</a>
+          <a href="classes.html#meditation">Meditation</a>
+          <a href="classes.html#sculpt">Yoga Sculpt</a>
+          <a href="classes.html#prenatal">Pre/Postnatal</a>
+        </div>
+      </li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="schedule.html">Schedule</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="mobile-cta-wrap">
+      <a href="schedule.html#book" class="mobile-cta">Book a Free Class</a>
+    </div>
+  </div>
+
+  <!-- ── NAVBAR ── -->
+  <nav id="navbar" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo">Seren<span>ova</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li class="nav-item">
+        <a href="classes.html">Classes <span class="chevron">▾</span></a>
+        <div class="dropdown">
+          <a href="classes.html#hatha">Hatha Yoga</a>
+          <a href="classes.html#vinyasa">Vinyasa Flow</a>
+          <a href="classes.html#yin">Yin &amp; Restore</a>
+          <a href="classes.html#meditation">Meditation</a>
+          <a href="classes.html#sculpt">Yoga Sculpt</a>
+          <a href="classes.html#prenatal">Pre/Postnatal</a>
+        </div>
+      </li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="schedule.html">Schedule</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="schedule.html#book" class="nav-cta">Book Free Class</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Open navigation menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section id="hero">
+    <div class="hero-bg-pattern"></div>
+    <svg class="hero-deco" viewBox="0 0 400 400" fill="none">
+      <circle cx="200" cy="200" r="180" stroke="white" stroke-width="1"/>
+      <circle cx="200" cy="200" r="140" stroke="white" stroke-width="0.5"/>
+      <circle cx="200" cy="200" r="100" stroke="white" stroke-width="0.5"/>
+      <path d="M200 20 Q340 200 200 380 Q60 200 200 20Z" stroke="white" stroke-width="0.5" fill="none"/>
+      <path d="M20 200 Q200 340 380 200 Q200 60 20 200Z" stroke="white" stroke-width="0.5" fill="none"/>
+    </svg>
+    <div class="hero-inner">
+      <span class="hero-eyebrow reveal">Yoga &amp; Wellness Studio</span>
+      <h1 class="hero-title reveal">
+        Find stillness.<br/>
+        Move with <em>intention.</em>
+      </h1>
+      <p class="hero-desc reveal">
+        Serenova is a sanctuary for mind, body, and breath. Whether you're arriving at your first mat or deepening a lifelong practice, you belong here.
+      </p>
+      <div class="hero-actions reveal">
+        <a href="schedule.html#book" class="btn-primary">Begin Your Journey</a>
+        <a href="#about" class="btn-outline">Explore the Studio</a>
+      </div>
+      <div class="hero-stats reveal">
+        <div>
+          <div class="stat-num">12<span>+</span></div>
+          <div class="stat-label">Years of practice</div>
+        </div>
+        <div>
+          <div class="stat-num">2400<span>+</span></div>
+          <div class="stat-label">Students guided</div>
+        </div>
+        <div>
+          <div class="stat-num">18</div>
+          <div class="stat-label">Weekly classes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ── -->
+  <section id="about">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div class="about-image-wrap reveal">
+          <div class="img-placeholder"></div>
+          <div class="about-badge">
+            <div class="badge-num">★ 4.9</div>
+            <div class="badge-label">Studio<br/>Rating</div>
+          </div>
+        </div>
+        <div class="about-text reveal">
+          <p class="section-eyebrow">About the Studio</p>
+          <h2 class="section-title">Empowering you<br/>through <em>ancient wisdom</em></h2>
+          <p class="about-body">
+            We are a forward-thinking wellness studio rooted in authentic yoga tradition. Our experienced teachers guide every student — from first-timers to seasoned practitioners — through purposeful movement, conscious breathing, and mindful rest.
+          </p>
+          <p class="about-body" style="margin-top:12px;">
+            Founded on the belief that wellness is not a destination but a way of living, Serenova offers a warm, inclusive space where transformation unfolds gently and sustainably.
+          </p>
+          <div class="about-pillars">
+            <div class="pillar">
+              <div class="pillar-icon">🌿</div>
+              <div class="pillar-title">Authentic Practice</div>
+              <div class="pillar-desc">Rooted in traditional lineages, adapted for modern life</div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-icon">🧘</div>
+              <div class="pillar-title">All Levels Welcome</div>
+              <div class="pillar-desc">Every class is thoughtfully designed for any body</div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-icon">✨</div>
+              <div class="pillar-title">Holistic Wellness</div>
+              <div class="pillar-desc">Movement, breath, nutrition, and rest in harmony</div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-icon">🤝</div>
+              <div class="pillar-title">Community First</div>
+              <div class="pillar-desc">A welcoming sangha that supports your journey</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SERVICES ── -->
+  <section id="services">
+    <div class="section-inner">
+      <p class="section-eyebrow reveal">Our Classes</p>
+      <h2 class="section-title reveal">Every body has<br/>its own <em>rhythm</em></h2>
+      <p class="services-intro reveal">Explore our full range of yoga styles and wellness offerings, each taught by certified instructors in a small-group setting.</p>
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-icon">☀️</div>
+          <div class="service-name">Hatha Yoga</div>
+          <p class="service-desc">A classical approach focusing on alignment, breath, and foundational postures. Perfect for beginners and those who prefer a measured pace.</p>
+          <span class="service-tag">All Levels</span>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">🌊</div>
+          <div class="service-name">Vinyasa Flow</div>
+          <p class="service-desc">Dynamic, breath-led sequences that build strength, flexibility, and a moving meditation. Each class is unique — guided by the teacher's intuition.</p>
+          <span class="service-tag">Intermediate</span>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">🌙</div>
+          <div class="service-name">Yin &amp; Restore</div>
+          <p class="service-desc">Slow, floor-based poses held for several minutes to release deep connective tissue and calm the nervous system. Pure, nourishing stillness.</p>
+          <span class="service-tag">All Levels</span>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">🧠</div>
+          <div class="service-name">Meditation</div>
+          <p class="service-desc">Guided sits covering breathwork, visualisation, and mindfulness techniques. Available as standalone sessions or paired with yoga classes.</p>
+          <span class="service-tag">All Levels</span>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">💪</div>
+          <div class="service-name">Yoga Sculpt</div>
+          <p class="service-desc">Strength-focused yoga that integrates light weights and high-rep movements to build a lean, functional body while keeping the yogic spirit alive.</p>
+          <span class="service-tag">Advanced</span>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">🌱</div>
+          <div class="service-name">Pre/Postnatal</div>
+          <p class="service-desc">A safe, nurturing practice specially designed for each stage of motherhood — supporting the body through pregnancy and postpartum recovery.</p>
+          <span class="service-tag">Specialist</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIALS ── -->
+  <section id="testimonials">
+    <div class="section-inner">
+      <p class="section-eyebrow reveal">Student Stories</p>
+      <h2 class="section-title reveal">What our community <em>shares</em></h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal">
+          <div class="testimonial-quote">"</div>
+          <p class="testimonial-text">Serenova changed my relationship with my body. I came in anxious and stiff; six months later I feel fluid, grounded, and genuinely at ease in my own skin.</p>
+          <div class="testimonial-stars">★★★★★</div>
+          <div class="testimonial-author">
+            <div class="author-avatar">P</div>
+            <div>
+              <div class="author-name">Priya Mehra</div>
+              <div class="author-tag">Hatha &amp; Vinyasa Student</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal">
+          <div class="testimonial-quote">"</div>
+          <p class="testimonial-text">The teachers here actually see you. They remember where you are in your practice, offer modifications without making you feel less-than, and celebrate every milestone.</p>
+          <div class="testimonial-stars">★★★★★</div>
+          <div class="testimonial-author">
+            <div class="author-avatar">A</div>
+            <div>
+              <div class="author-name">Arjun Rao</div>
+              <div class="author-tag">Yin &amp; Meditation Student</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal">
+          <div class="testimonial-quote">"</div>
+          <p class="testimonial-text">I joined the postnatal class when I was completely depleted. The gentleness, the community of other mothers, and the care of the instructor made it the most healing hour of my week.</p>
+          <div class="testimonial-stars">★★★★★</div>
+          <div class="testimonial-author">
+            <div class="author-avatar">S</div>
+            <div>
+              <div class="author-name">Sneha Iyer</div>
+              <div class="author-tag">Postnatal Yoga Student</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section id="cta">
+    <div class="cta-inner">
+      <p class="section-eyebrow reveal" style="color:var(--sage);text-align:center;">Start Today</p>
+      <h2 class="cta-title reveal">Your first class<br/>is on <em>us.</em></h2>
+      <p class="cta-desc reveal">No experience needed. No equipment required. Just show up as you are — we'll handle the rest.</p>
+      <div class="cta-actions reveal">
+        <a href="schedule.html#book" class="btn-primary">Claim Your Free Class</a>
+        <a href="contact.html" class="btn-outline">Get in Touch</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer id="footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">Seren<span>ova</span></div>
+        <p class="footer-tagline">A sanctuary for mindful movement and conscious living, in the heart of the city.</p>
+        <div class="footer-subscribe">
+          <p class="footer-subscribe-label">Grow with our weekly wellness tips</p>
+          <div class="subscribe-row">
+            <input type="email" class="subscribe-input" placeholder="Enter your email" aria-label="Email address"/>
+            <button class="subscribe-btn">Subscribe</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="schedule.html">Schedule</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Classes</div>
+        <ul class="footer-links">
+          <li><a href="#">Hatha Yoga</a></li>
+          <li><a href="#">Vinyasa Flow</a></li>
+          <li><a href="#">Yin &amp; Restore</a></li>
+          <li><a href="#" class="new-badge">Yoga Sculpt</a></li>
+          <li><a href="#">Meditation</a></li>
+          <li><a href="#">Pre/Postnatal</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Resources</div>
+        <ul class="footer-links">
+          <li><a href="#">Wellness Blog</a></li>
+          <li><a href="#">Teacher Bios</a></li>
+          <li><a href="#">Membership Plans</a></li>
+          <li><a href="#">Gift Cards</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Serenova Yoga &amp; Wellness. All rights reserved.</p>
+      <div class="footer-socials">
+        <a href="javascript:void(0)" onclick="return false" aria-label="Instagram" title="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="javascript:void(0)" onclick="return false" aria-label="Facebook" title="Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="javascript:void(0)" onclick="return false" aria-label="YouTube" title="YouTube">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+        </a>
+        <a href="javascript:void(0)" onclick="return false" aria-label="LinkedIn" title="LinkedIn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+      </div>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms &amp; Conditions</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ── LOADER ── */
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('loader');
+      setTimeout(() => { loader.classList.add('hidden'); }, 2200);
+    });
+
+    /* ── NAVBAR SCROLL ── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    /* ── MOBILE MENU ── */
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileClose = document.getElementById('mobile-close');
+
+    function openMenu() {
+      mobileMenu.classList.add('open');
+      hamburger.classList.add('open');
+      document.body.classList.add('menu-open');
+      hamburger.setAttribute('aria-expanded', 'true');
+    }
+    function closeMenu() {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      document.body.classList.remove('menu-open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    }
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.contains('open') ? closeMenu() : openMenu();
+    });
+    mobileClose.addEventListener('click', closeMenu);
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    /* ── SCROLL REVEAL ── */
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => observer.observe(el));
+
+    /* ── SUBSCRIBE FORM ── */
+    document.querySelector('.subscribe-btn').addEventListener('click', () => {
+      const input = document.querySelector('.subscribe-input');
+      if (input.value.includes('@')) {
+        input.value = '✓ You\'re subscribed!';
+        input.disabled = true;
+      } else { input.placeholder = 'Please enter a valid email'; input.focus(); }
+    });
+  </script>
+</body>
+</html>
