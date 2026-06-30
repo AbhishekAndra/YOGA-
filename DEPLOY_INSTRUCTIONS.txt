@@ -1,0 +1,28 @@
+=============================================
+  GITHUB DEPLOYMENT - UPDATED ACCOUNT
+=============================================
+
+The deploy scripts have been updated to use:
+
+  GitHub Account : AbhishekAndra
+  Email          : abhishekandra6445@gmail.com
+  Repo URL       : https://github.com/AbhishekAndra/YoGa-.git
+
+=============================================
+  HOW TO DEPLOY
+=============================================
+
+STEP 1: Double-click  switch_github_account.bat
+        (This clears old GitHub credentials)
+
+STEP 2: Double-click  fix_git.bat
+        (This pushes the website to GitHub)
+
+STEP 3: When the GitHub login window appears,
+        sign in as AbhishekAndra
+
+STEP 4: After push succeeds, go to:
+        github.com/AbhishekAndra/YoGa-
+        Settings > Pages > Deploy from main branch
+
+=============================================
