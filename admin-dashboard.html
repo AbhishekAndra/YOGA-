@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard — Stackly</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal:#2EC4B6; --teal-dark:#1fa99d; --teal-light:rgba(46,196,182,0.12);
+      --deep:#1a1a2e; --sidebar:#0f1729; --bg:#f0f4f8; --card:#fff;
+      --charcoal:#2d2d2d; --muted:#7a7a7a; --clay:#c9795a;
+      --green:#38a169; --red:#e53e3e; --yellow:#d69e2e; --purple:#805ad5;
+      --font:'DM Sans',system-ui,sans-serif;
+      --sidebar-w:240px; --radius:12px;
+      --shadow:0 2px 16px rgba(0,0,0,0.07);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:var(--font);background:var(--bg);color:var(--charcoal);display:flex;min-height:100vh;}
+    a{text-decoration:none;color:inherit;}
+
+    /* ─── SIDEBAR ─── */
+    .sidebar{width:var(--sidebar-w);background:var(--sidebar);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:100;}
+    .sidebar-logo{padding:22px 20px 18px;border-bottom:1px solid rgba(255,255,255,0.06);}
+    .sidebar-logo img{height:36px;width:auto;}
+    .sidebar-nav{flex:1;padding:10px 12px;overflow-y:auto;}
+    .sec-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:16px 10px 6px;}
+    .nav-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:8px;margin-bottom:2px;font-size:14px;color:rgba(255,255,255,.6);cursor:pointer;transition:all .2s;}
+    .nav-item:hover{background:rgba(255,255,255,.06);color:#fff;}
+    .nav-item.active{background:var(--teal);color:#fff;}
+    .nav-item svg{flex-shrink:0;}
+    .nav-badge{margin-left:auto;background:var(--clay);color:#fff;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;}
+    .sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.06);}
+    .admin-profile{display:flex;align-items:center;gap:10px;}
+    .admin-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--teal-dark));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;flex-shrink:0;}
+    .admin-name{font-size:13px;color:#fff;font-weight:500;}
+    .admin-role{font-size:11px;color:rgba(255,255,255,.4);}
+    .admin-email{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px;word-break:break-all;}
+    .logout-btn{margin-left:auto;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.4);transition:color .2s;}
+    .logout-btn:hover{color:var(--teal);}
+
+    /* ─── MAIN ─── */
+    .main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;}
+
+    /* ─── TOPBAR ─── */
+    .topbar{position:sticky;top:0;z-index:90;background:rgba(240,244,248,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06);padding:0 32px;height:64px;display:flex;align-items:center;gap:16px;}
+    .topbar-title{font-size:18px;font-weight:600;color:var(--deep);}
+    .topbar-sub{font-size:13px;color:var(--muted);margin-left:8px;}
+    .topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px;}
+    .tb-search{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;padding:8px 14px;font-size:13px;color:var(--muted);}
+    .tb-icon{width:38px;height:38px;border-radius:8px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:border-color .2s;}
+    .tb-icon:hover{border-color:var(--teal);}
+    .notif-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--clay);border:1.5px solid var(--bg);}
+
+    /* ─── PAGE ─── */
+    .page{padding:28px 32px;flex:1;}
+
+    /* ─── STAT CARDS ─── */
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:24px;}
+    .stat-card{background:var(--card);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .2s;}
+    .stat-card:hover{transform:translateY(-3px);}
+    .stat-card::after{content:'';position:absolute;top:-20px;right:-20px;width:90px;height:90px;border-radius:50%;opacity:.07;}
+    .stat-card:nth-child(1)::after{background:var(--teal);}
+    .stat-card:nth-child(2)::after{background:var(--clay);}
+    .stat-card:nth-child(3)::after{background:var(--green);}
+    .stat-card:nth-child(4)::after{background:var(--purple);}
+    .stat-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;}
+    .si-teal{background:rgba(46,196,182,.12);}
+    .si-clay{background:rgba(201,121,90,.12);}
+    .si-green{background:rgba(56,161,105,.12);}
+    .si-purple{background:rgba(128,90,213,.12);}
+    .stat-val{font-size:28px;font-weight:700;color:var(--deep);line-height:1;margin-bottom:4px;}
+    .stat-lbl{font-size:13px;color:var(--muted);}
+    .stat-chg{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:500;margin-top:10px;}
+    .up{color:var(--green);}.down{color:var(--red);}
+
+    /* ─── LAYOUT ─── */
+    .content-grid{display:grid;grid-template-columns:1fr 340px;gap:20px;}
+    .col{display:flex;flex-direction:column;gap:20px;}
+
+    /* ─── CARD ─── */
+    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;}
+    .card-head{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid rgba(0,0,0,.05);}
+    .card-title{font-size:15px;font-weight:600;color:var(--deep);}
+    .card-body{padding:20px 24px;}
+    .view-all{font-size:12px;color:var(--teal);font-weight:500;cursor:pointer;}
+
+    /* ─── QUICK ACTIONS ─── */
+    .quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+    .quick-btn{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 10px;border-radius:10px;background:rgba(0,0,0,.02);border:1px solid rgba(0,0,0,.06);cursor:pointer;transition:all .2s;text-align:center;}
+    .quick-btn:hover{background:var(--teal);border-color:var(--teal);color:#fff;}
+    .quick-btn:hover .ql{color:#fff;}
+    .qi{font-size:24px;}
+    .ql{font-size:12px;font-weight:500;color:var(--charcoal);}
+
+    /* ─── CHART ─── */
+    .chart-wrap{display:flex;align-items:flex-end;gap:10px;height:140px;padding:0 4px;}
+    .bar-g{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;}
+    .bar{width:100%;border-radius:5px 5px 0 0;background:var(--teal-light);transition:background .2s;cursor:pointer;}
+    .bar:hover,.bar.on{background:var(--teal);}
+    .bl{font-size:11px;color:var(--muted);}
+
+    /* ─── TABLE ─── */
+    .dtable{width:100%;border-collapse:collapse;}
+    .dtable th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:500;text-align:left;padding:10px 16px;border-bottom:1px solid rgba(0,0,0,.06);}
+    .dtable td{padding:13px 16px;border-bottom:1px solid rgba(0,0,0,.04);font-size:13px;}
+    .dtable tr:last-child td{border-bottom:none;}
+    .dtable tr:hover td{background:rgba(46,196,182,.03);}
+    .st-cell{display:flex;align-items:center;gap:10px;}
+    .st-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;flex-shrink:0;}
+    .st-name{font-size:13px;font-weight:500;color:var(--deep);}
+    .st-email{font-size:11px;color:var(--muted);}
+    .badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;}
+    .b-ok{background:rgba(56,161,105,.1);color:#276749;}
+    .b-pend{background:rgba(214,158,46,.1);color:#975a16;}
+    .b-no{background:rgba(229,62,62,.1);color:#9b2c2c;}
+
+    /* ─── SCHEDULE ─── */
+    .sch-list{display:flex;flex-direction:column;gap:10px;}
+    .sch-item{display:flex;align-items:center;gap:14px;padding:13px 14px;border-radius:9px;background:rgba(0,0,0,.02);border-left:3px solid var(--teal);transition:background .2s;}
+    .sch-item:hover{background:rgba(46,196,182,.06);}
+    .sch-time{font-size:12px;color:var(--muted);min-width:68px;}
+    .sch-name{font-size:13px;font-weight:500;color:var(--deep);}
+    .sch-ins{font-size:11px;color:var(--muted);margin-top:2px;}
+    .sch-spots{margin-left:auto;text-align:right;font-size:11px;color:var(--muted);}
+    .spots-n{font-size:13px;font-weight:600;color:var(--deep);}
+
+    /* ─── PROGRESS BARS ─── */
+    .prog-item{margin-bottom:15px;}
+    .prog-head{display:flex;justify-content:space-between;margin-bottom:6px;}
+    .prog-name{font-size:13px;}.prog-val{font-size:13px;font-weight:600;color:var(--deep);}
+    .prog-track{height:6px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden;}
+    .prog-fill{height:100%;border-radius:3px;transition:width 1s ease;}
+    .pf-teal{background:var(--teal);}.pf-clay{background:var(--clay);}
+    .pf-green{background:var(--green);}.pf-purple{background:var(--purple);}
+
+    /* ─── ACTIVITY ─── */
+    .act-list{display:flex;flex-direction:column;}
+    .act-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid rgba(0,0,0,.04);}
+    .act-item:last-child{border-bottom:none;}
+    .act-dot{width:8px;height:8px;border-radius:50%;margin-top:4px;flex-shrink:0;}
+    .act-txt{font-size:13px;line-height:1.5;}
+    .act-time{font-size:11px;color:var(--muted);margin-top:2px;}
+
+    @media(max-width:1200px){.content-grid{grid-template-columns:1fr;}.stats-grid{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:768px){.sidebar{transform:translateX(-100%);}.main{margin-left:0;}.stats-grid{grid-template-columns:1fr;}.page,.topbar{padding-left:16px;padding-right:16px;}.quick-grid{grid-template-columns:repeat(2,1fr);}}
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <img src="images/stackly_logo_transparent.webp" alt="Stackly"/>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sec-label">Main</div>
+    <div class="nav-item active">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </div>
+    <div class="nav-item">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Students <span class="nav-badge">2.8k</span>
+    </div>
+    <div class="nav-item">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+      Classes
+    </div>
+    <div class="nav-item">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Schedule
+    </div>
+    <div class="sec-label">Finance</div>
+    <div class="nav-item">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Revenue
+    </div>
+    <div class="nav-item">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Analytics
+    </div>
+    <div class="sec-label">System</div>
+    <div class="nav-item">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 0 0 4.93 19.07m14.14 0A10 10 0 0 0 4.93 4.93"/></svg>
+      Settings
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="admin-profile">
+      <div class="admin-av">A</div>
+      <div>
+        <div class="admin-name" id="sidebar-admin-name">Admin User</div>
+        <div class="admin-role">Super Admin</div>
+        <div class="admin-email" id="sidebar-admin-email"></div>
+      </div>
+      <button class="logout-btn" onclick="window.location.href='login.html'" title="Logout">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </button>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div>
+      <span class="topbar-title">Dashboard</span>
+      <span class="topbar-sub">Good morning, Admin 👋</span>
+    </div>
+    <div class="topbar-right">
+      <div class="tb-search">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search...
+      </div>
+      <div class="tb-icon">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="notif-dot"></span>
+      </div>
+      <div class="tb-icon" style="width:38px;height:38px;">
+        <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#2EC4B6,#1fa99d);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;">A</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page">
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon si-teal">👥</div>
+        <div class="stat-val">2,847</div>
+        <div class="stat-lbl">Total Students</div>
+        <div class="stat-chg up">↑ 12% vs last month</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon si-clay">🧘</div>
+        <div class="stat-val">8</div>
+        <div class="stat-lbl">Classes Today</div>
+        <div class="stat-chg up">↑ 2 extra sessions</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon si-green">💰</div>
+        <div class="stat-val">₹1.24L</div>
+        <div class="stat-lbl">Monthly Revenue</div>
+        <div class="stat-chg up">↑ 8.3% growth</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon si-purple">📊</div>
+        <div class="stat-val">142</div>
+        <div class="stat-lbl">Bookings Today</div>
+        <div class="stat-chg down">↓ 3 cancellations</div>
+      </div>
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-head"><span class="card-title">Quick Actions</span></div>
+      <div class="card-body">
+        <div class="quick-grid">
+          <div class="quick-btn"><div class="qi">➕</div><div class="ql">Add Student</div></div>
+          <div class="quick-btn"><div class="qi">📅</div><div class="ql">New Class</div></div>
+          <div class="quick-btn"><div class="qi">📤</div><div class="ql">Export Report</div></div>
+          <div class="quick-btn"><div class="qi">📢</div><div class="ql">Send Notice</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT GRID -->
+    <div class="content-grid">
+
+      <!-- LEFT COL -->
+      <div class="col">
+
+        <!-- REVENUE CHART -->
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Monthly Revenue</span>
+            <span class="view-all">View Report →</span>
+          </div>
+          <div class="card-body">
+            <div style="font-size:28px;font-weight:700;color:var(--deep);margin-bottom:4px;">₹1,24,500</div>
+            <div style="font-size:13px;color:var(--muted);margin-bottom:20px;">June 2026 &middot; <span style="color:#38a169;font-weight:500;">↑ 8.3% from last month</span></div>
+            <div class="chart-wrap">
+              <div class="bar-g"><div class="bar" style="height:55%"></div><div class="bl">Jan</div></div>
+              <div class="bar-g"><div class="bar" style="height:68%"></div><div class="bl">Feb</div></div>
+              <div class="bar-g"><div class="bar" style="height:60%"></div><div class="bl">Mar</div></div>
+              <div class="bar-g"><div class="bar" style="height:78%"></div><div class="bl">Apr</div></div>
+              <div class="bar-g"><div class="bar" style="height:70%"></div><div class="bl">May</div></div>
+              <div class="bar-g"><div class="bar on" style="height:95%"></div><div class="bl">Jun</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOOKINGS TABLE -->
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Recent Bookings</span>
+            <span class="view-all">View All →</span>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="dtable">
+              <thead>
+                <tr><th>Student</th><th>Class</th><th>Time</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><div class="st-cell"><div class="st-av" style="background:linear-gradient(135deg,#2EC4B6,#1fa99d);">P</div><div><div class="st-name">Priya Mehra</div><div class="st-email">priya@example.com</div></div></div></td>
+                  <td>Hatha Yoga</td><td>9:00 AM</td><td><span class="badge b-ok">✓ Confirmed</span></td>
+                </tr>
+                <tr>
+                  <td><div class="st-cell"><div class="st-av" style="background:linear-gradient(135deg,#c9795a,#a05e42);">A</div><div><div class="st-name">Arjun Rao</div><div class="st-email">arjun@example.com</div></div></div></td>
+                  <td>Vinyasa Flow</td><td>11:00 AM</td><td><span class="badge b-pend">⏳ Pending</span></td>
+                </tr>
+                <tr>
+                  <td><div class="st-cell"><div class="st-av" style="background:linear-gradient(135deg,#805ad5,#6b46c1);">S</div><div><div class="st-name">Sneha Iyer</div><div class="st-email">sneha@example.com</div></div></div></td>
+                  <td>Meditation</td><td>6:00 PM</td><td><span class="badge b-ok">✓ Confirmed</span></td>
+                </tr>
+                <tr>
+                  <td><div class="st-cell"><div class="st-av" style="background:linear-gradient(135deg,#38a169,#276749);">R</div><div><div class="st-name">Rohan Sharma</div><div class="st-email">rohan@example.com</div></div></div></td>
+                  <td>Yoga Sculpt</td><td>7:00 PM</td><td><span class="badge b-no">✕ Cancelled</span></td>
+                </tr>
+                <tr>
+                  <td><div class="st-cell"><div class="st-av" style="background:linear-gradient(135deg,#d69e2e,#b7791f);">N</div><div><div class="st-name">Neha Gupta</div><div class="st-email">neha@example.com</div></div></div></td>
+                  <td>Yin &amp; Restore</td><td>8:30 PM</td><td><span class="badge b-ok">✓ Confirmed</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div><!-- /left -->
+
+      <!-- RIGHT COL -->
+      <div class="col">
+
+        <!-- TODAY SCHEDULE -->
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Today's Schedule</span>
+            <span class="view-all">Full →</span>
+          </div>
+          <div class="card-body">
+            <div class="sch-list">
+              <div class="sch-item">
+                <div class="sch-time">7:00 AM</div>
+                <div><div class="sch-name">Morning Hatha</div><div class="sch-ins">Meera K.</div></div>
+                <div class="sch-spots"><div class="spots-n">12/15</div>spots</div>
+              </div>
+              <div class="sch-item">
+                <div class="sch-time">9:00 AM</div>
+                <div><div class="sch-name">Vinyasa Flow</div><div class="sch-ins">Ravi S.</div></div>
+                <div class="sch-spots"><div class="spots-n">8/12</div>spots</div>
+              </div>
+              <div class="sch-item">
+                <div class="sch-time">11:00 AM</div>
+                <div><div class="sch-name">Meditation</div><div class="sch-ins">Anita P.</div></div>
+                <div class="sch-spots"><div class="spots-n">10/20</div>spots</div>
+              </div>
+              <div class="sch-item" style="border-left-color:var(--clay)">
+                <div class="sch-time">6:00 PM</div>
+                <div><div class="sch-name">Yoga Sculpt</div><div class="sch-ins">Kiran M.</div></div>
+                <div class="sch-spots"><div class="spots-n" style="color:var(--clay)">Full</div>15/15</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CLASS POPULARITY -->
+        <div class="card">
+          <div class="card-head"><span class="card-title">Class Popularity</span></div>
+          <div class="card-body">
+            <div class="prog-item"><div class="prog-head"><span class="prog-name">Yoga Sculpt</span><span class="prog-val">92%</span></div><div class="prog-track"><div class="prog-fill pf-purple" style="width:92%"></div></div></div>
+            <div class="prog-item"><div class="prog-head"><span class="prog-name">Hatha Yoga</span><span class="prog-val">87%</span></div><div class="prog-track"><div class="prog-fill pf-teal" style="width:87%"></div></div></div>
+            <div class="prog-item"><div class="prog-head"><span class="prog-name">Vinyasa Flow</span><span class="prog-val">73%</span></div><div class="prog-track"><div class="prog-fill pf-clay" style="width:73%"></div></div></div>
+            <div class="prog-item"><div class="prog-head"><span class="prog-name">Meditation</span><span class="prog-val">65%</span></div><div class="prog-track"><div class="prog-fill pf-green" style="width:65%"></div></div></div>
+          </div>
+        </div>
+
+        <!-- ACTIVITY FEED -->
+        <div class="card">
+          <div class="card-head"><span class="card-title">Recent Activity</span><span class="view-all">All →</span></div>
+          <div class="card-body">
+            <div class="act-list">
+              <div class="act-item"><div class="act-dot" style="background:var(--teal)"></div><div><div class="act-txt"><strong>Priya Mehra</strong> booked Hatha Yoga</div><div class="act-time">2 min ago</div></div></div>
+              <div class="act-item"><div class="act-dot" style="background:var(--clay)"></div><div><div class="act-txt"><strong>Rohan Sharma</strong> cancelled Yoga Sculpt</div><div class="act-time">15 min ago</div></div></div>
+              <div class="act-item"><div class="act-dot" style="background:var(--green)"></div><div><div class="act-txt"><strong>New student</strong> Neha Gupta registered</div><div class="act-time">1 hr ago</div></div></div>
+              <div class="act-item"><div class="act-dot" style="background:var(--purple)"></div><div><div class="act-txt"><strong>Payment ₹2,400</strong> received from Arjun Rao</div><div class="act-time">3 hrs ago</div></div></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /right -->
+    </div><!-- /content-grid -->
+  </div><!-- /page -->
+</main>
+
+<script>
+  (function() {
+    var email = sessionStorage.getItem('userEmail');
+    if (!email) return;
+    // Sidebar email
+    var sidebarEmail = document.getElementById('sidebar-admin-email');
+    if (sidebarEmail) sidebarEmail.textContent = email;
+    // Derive display name from email
+    var namePart = email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, function(c){ return c.toUpperCase(); });
+    var sidebarName = document.getElementById('sidebar-admin-name');
+    if (sidebarName) sidebarName.textContent = namePart;
+    // Update topbar greeting
+    var topbarSub = document.querySelector('.topbar-sub');
+    if (topbarSub) topbarSub.textContent = 'Good morning, ' + namePart.split(' ')[0] + ' 👋';
+    // Update avatar initials
+    var initials = namePart.split(' ').map(function(w){ return w[0]; }).slice(0,2).join('');
+    document.querySelectorAll('.admin-av').forEach(function(el){ el.textContent = initials; });
+    var tbAvs = document.querySelectorAll('.tb-icon div[style*="border-radius:50%"]');
+    tbAvs.forEach(function(el){ el.textContent = initials[0] || '?'; });
+  })();
+</script>
+</body>
+</html>

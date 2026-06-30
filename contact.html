@@ -36,8 +36,8 @@
       z-index: 1000; transition: box-shadow 0.3s;
     }
     #navbar.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.3); }
-    .nav-logo { font-family: var(--font-display); font-size: 22px; font-weight: 300; letter-spacing: 0.15em; color: var(--cream); }
-    .nav-logo span { color: var(--sage); font-style: italic; }
+    .nav-logo { display: flex; align-items: center; }
+    .nav-logo-img { height: 46px; width: auto; }
     .nav-links { display: flex; align-items: center; gap: 8px; margin: 0 auto; list-style: none; }
     .nav-links a { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,240,232,0.75); padding: 6px 14px; transition: var(--transition); }
     .nav-links a:hover, .nav-links a.active { color: var(--sage); }
@@ -69,27 +69,62 @@
     .mobile-cta { display: block; width: 100%; background: var(--sage); color: var(--deep); text-align: center; padding: 14px; font-size: 14px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; border-radius: var(--radius); }
     .mobile-close { position: absolute; top: 22px; right: 20px; background: none; border: none; cursor: pointer; color: var(--cream); font-size: 28px; line-height: 1; }
 
-    /* ── HERO ── */
+    /* ── MAGAZINE COVER HERO ── */
     #contact-hero {
-      min-height: 340px;
       padding-top: var(--nav-h);
-      background: linear-gradient(160deg, #1a1a2e 0%, #0f3460 100%);
-      display: flex; align-items: center;
-      position: relative; overflow: hidden;
+      position: relative;
+      overflow: hidden;
+      height: 78vh;
+      min-height: 440px;
     }
+    /* Background image */
+    .ch-bg { position: absolute; inset: 0; z-index: 0; }
+    .ch-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; display: block; filter: grayscale(30%) brightness(0.72) contrast(1.05); }
+    /* Grainy texture overlay */
+    .ch-grain { position: absolute; inset: 0; z-index: 1; opacity: 0.18;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px;
+    }
+    /* Large overlapping title */
+    .ch-title {
+      position: absolute; top: 0; left: 0; right: 0;
+      z-index: 3;
+      padding: 20px 32px 0;
+      font-family: var(--font-body);
+      font-size: clamp(72px, 16vw, 200px);
+      font-weight: 700;
+      line-height: 0.88;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: #2EC4B6;
+      pointer-events: none;
+      mix-blend-mode: normal;
+    }
+    /* Bottom-left metadata */
+    .ch-meta-left {
+      position: absolute; bottom: 32px; left: 32px; z-index: 4;
+      font-family: var(--font-body); font-size: 12px; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: #2EC4B6; line-height: 1.7;
+    }
+    /* Bottom-right italic tagline */
+    .ch-meta-right {
+      position: absolute; bottom: 28px; right: 32px; z-index: 4;
+      font-family: var(--font-display); font-size: clamp(22px, 4vw, 44px);
+      font-weight: 300; font-style: italic; color: #fff;
+    }
+    /* Bottom gradient scrim so text is readable */
     #contact-hero::after {
       content: '';
-      position: absolute; inset: 0;
-      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='1' fill='rgba(122,158,126,0.3)'/%3E%3C/svg%3E") repeat;
-      opacity: 0.4;
+      position: absolute; bottom: 0; left: 0; right: 0; height: 45%;
+      background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 100%);
+      z-index: 2; pointer-events: none;
     }
-    .hero-inner { max-width: 1200px; margin: 0 auto; padding: 60px 40px; position: relative; z-index: 1; }
-    .breadcrumb { font-size: 12px; color: rgba(245,240,232,0.45); margin-bottom: 18px; letter-spacing: 0.1em; }
-    .breadcrumb a { color: var(--sage); }
-    .breadcrumb span { margin: 0 8px; }
-    .hero-title { font-family: var(--font-display); font-size: clamp(40px, 6vw, 72px); font-weight: 300; color: var(--cream); line-height: 1.1; }
-    .hero-title em { font-style: italic; color: var(--sage); }
-    .hero-sub { font-size: 15px; line-height: 1.7; color: rgba(245,240,232,0.55); margin-top: 16px; max-width: 460px; }
+    @media (max-width: 768px) {
+      .ch-title { font-size: clamp(52px, 18vw, 100px); padding: 16px 20px 0; }
+      .ch-meta-left { left: 20px; bottom: 20px; }
+      .ch-meta-right { right: 20px; bottom: 16px; font-size: 22px; }
+    }
 
     /* ── CONTACT BODY ── */
     #contact-body {
@@ -135,6 +170,8 @@
       transition: var(--transition); cursor: pointer;
     }
     .social-btn:hover { background: var(--sage); color: var(--deep); }
+    .dir-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sage); border: 1px solid rgba(122,158,126,0.4); padding: 7px 14px; border-radius: 20px; transition: var(--transition); }
+    .dir-btn:hover { background: var(--sage); color: white; }
 
     /* Hours */
     .hours-table { width: 100%; }
@@ -312,7 +349,7 @@
 
   <!-- NAVBAR -->
   <nav id="navbar" aria-label="Main navigation">
-    <a href="index.html" class="nav-logo">Stack<span>ly</span></a>
+    <a href="index.html" class="nav-logo"><img src="images/stackly_logo_transparent.webp" alt="Stackly" class="nav-logo-img"/></a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li class="nav-item">
@@ -329,7 +366,7 @@
       <li><a href="about.html">About Us</a></li>
       <li><a href="schedule.html">Schedule</a></li>
       <li><a href="contact.html" class="active">Contact</a></li>
-      <li><a href="schedule.html#book" class="nav-cta">Book Free Class</a></li>
+      <li><a href="login.html" class="nav-cta">Login</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -338,15 +375,29 @@
 
   <!-- HERO -->
   <section id="contact-hero">
-    <div class="hero-inner">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="index.html">Home</a>
-        <span>›</span>
-        <span>Contact Us</span>
-      </nav>
-      <h1 class="hero-title">Let's <em>connect</em></h1>
-      <p class="hero-sub">We'd love to hear from you — whether you have a question about classes, memberships, or just want to say hello.</p>
+
+    <!-- Background photo -->
+    <div class="ch-bg">
+      <img src="images/slide3.webp" alt="Yoga studio contact"/>
     </div>
+
+    <!-- Grain texture -->
+    <div class="ch-grain"></div>
+
+    <!-- Massive overlapping title -->
+    <h1 class="ch-title">Get in<br/>Touch.</h1>
+
+    <!-- Bottom gradient scrim (via ::after) -->
+
+    <!-- Bottom-left metadata -->
+    <div class="ch-meta-left">
+      Stackly Yoga &amp; Wellness<br/>
+      Mumbai, India · Est. 2013
+    </div>
+
+    <!-- Bottom-right italic tagline -->
+    <div class="ch-meta-right">We'd love to hear from you.</div>
+
   </section>
 
   <!-- CONTACT BODY -->
@@ -364,6 +415,10 @@
           <div>
             <div class="info-label">Address</div>
             <div class="info-value">Stackly Wellness, 42 Stillwater Lane<br/>Koramangala, Bengaluru – 560034</div>
+            <a href="404.html" class="dir-btn">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+              Get Directions
+            </a>
           </div>
         </div>
         <div class="info-row">
@@ -385,10 +440,10 @@
           <div>
             <div class="info-label">Social Media</div>
             <div class="socials-row">
-              <a href="javascript:void(0)" class="social-btn" aria-label="Instagram">&#9670;</a>
-              <a href="javascript:void(0)" class="social-btn" aria-label="Facebook">f</a>
-              <a href="javascript:void(0)" class="social-btn" aria-label="YouTube">▶</a>
-              <a href="javascript:void(0)" class="social-btn" aria-label="LinkedIn">in</a>
+              <a href="404.html" class="social-btn" aria-label="Instagram">&#9670;</a>
+              <a href="404.html" class="social-btn" aria-label="Facebook">f</a>
+              <a href="404.html" class="social-btn" aria-label="YouTube">▶</a>
+              <a href="404.html" class="social-btn" aria-label="LinkedIn">in</a>
             </div>
           </div>
         </div>
@@ -421,7 +476,7 @@
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="fname">Name <span class="req">*</span></label>
-              <input class="form-input" type="text" id="fname" name="name" placeholder="Your full name" required autocomplete="name"/>
+              <input class="form-input" type="text" id="fname" name="name" placeholder="Your full name" required autocomplete="name" maxlength="16"/>
               <div class="error-msg" id="err-name">Please enter your name.</div>
             </div>
             <div class="form-group">
@@ -433,7 +488,7 @@
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="fphone">Mobile Number</label>
-              <input class="form-input" type="tel" id="fphone" name="phone" placeholder="+91 00000 00000" autocomplete="tel"/>
+              <input class="form-input" type="tel" id="fphone" name="phone" placeholder="+91 00000 00000" autocomplete="tel" maxlength="10" inputmode="numeric"/>
               <div class="error-msg" id="err-phone">Please enter a valid 10-digit mobile number.</div>
             </div>
             <div class="form-group">
@@ -617,6 +672,14 @@
     const counter = document.getElementById('charCount');
     msg.addEventListener('input', () => { counter.textContent = msg.value.length; });
 
+    /* ── LIVE INPUT RULES ── */
+    document.getElementById('fname').addEventListener('input', function() {
+      this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 16);
+    });
+    document.getElementById('fphone').addEventListener('input', function() {
+      this.value = this.value.replace(/\D/g, '').slice(0, 10);
+    });
+
     /* ── FORM VALIDATION ── */
     document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -631,12 +694,14 @@
       const showErr = (input, errId) => { input.classList.add('error'); document.getElementById(errId).classList.add('show'); valid = false; };
       const clearErr = (input, errId) => { input.classList.remove('error'); document.getElementById(errId).classList.remove('show'); };
 
-      if (!name.value.trim()) { showErr(name, 'err-name'); } else { clearErr(name, 'err-name'); }
+      const nameVal = name.value.trim();
+      if (!nameVal || !/^[a-zA-Z\s]+$/.test(nameVal) || nameVal.length > 16) { showErr(name, 'err-name'); document.getElementById('err-name').textContent = !nameVal ? 'Name is required.' : nameVal.length > 16 ? 'Max 16 characters allowed.' : 'Only letters and spaces allowed.'; } else { clearErr(name, 'err-name'); }
 
       const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRx.test(email.value.trim())) { showErr(email, 'err-email'); } else { clearErr(email, 'err-email'); }
 
-      if (phone.value.trim() && !/^\+?[\d\s\-]{10,14}$/.test(phone.value.trim())) { showErr(phone, 'err-phone'); } else { clearErr(phone, 'err-phone'); }
+      const phoneVal = phone.value.trim();
+      if (phoneVal && !/^\d{10}$/.test(phoneVal)) { showErr(phone, 'err-phone'); document.getElementById('err-phone').textContent = 'Enter exactly 10 digits.'; } else { clearErr(phone, 'err-phone'); }
 
       if (!subject.value) { showErr(subject, 'err-subject'); } else { clearErr(subject, 'err-subject'); }
 

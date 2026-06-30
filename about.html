@@ -30,8 +30,8 @@
     /* ── NAVBAR ── */
     #navbar { position: fixed; top: 0; left: 0; right: 0; width: 100%; height: var(--nav-h); background: rgba(26,26,46,0.97); backdrop-filter: blur(12px); display: flex; align-items: center; padding: 0 40px; z-index: 1000; transition: box-shadow 0.3s; }
     #navbar.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.3); }
-    .nav-logo { font-family: var(--font-display); font-size: 22px; font-weight: 300; letter-spacing: 0.15em; color: var(--cream); }
-    .nav-logo span { color: var(--sage); font-style: italic; }
+    .nav-logo { display: flex; align-items: center; }
+    .nav-logo-img { height: 46px; width: auto; }
     .nav-links { display: flex; align-items: center; gap: 8px; margin: 0 auto; list-style: none; }
     .nav-links a { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,240,232,0.75); padding: 6px 14px; position: relative; transition: var(--transition); }
     .nav-links a:hover, .nav-links a.active { color: var(--sage); }
@@ -67,28 +67,29 @@
     .mobile-close { position: absolute; top: 22px; right: 20px; background: none; border: none; cursor: pointer; color: var(--cream); font-size: 28px; line-height: 1; }
 
     /* ── HERO ── */
-    #about-hero {
-      min-height: 420px;
-      padding-top: var(--nav-h);
-      background: linear-gradient(160deg, #1a1a2e 0%, #0f3460 60%, #1a1a2e 100%);
-      display: flex; align-items: center;
-      position: relative; overflow: hidden;
-    }
-    #about-hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(circle at 70% 40%, rgba(122,158,126,0.12) 0%, transparent 50%),
-                  radial-gradient(circle at 20% 70%, rgba(201,121,90,0.08) 0%, transparent 40%);
-      pointer-events: none;
-    }
-    .hero-inner { max-width: 1200px; margin: 0 auto; padding: 70px 40px; position: relative; z-index: 1; }
-    .breadcrumb { font-size: 12px; color: rgba(245,240,232,0.45); margin-bottom: 18px; letter-spacing: 0.1em; }
-    .breadcrumb a { color: var(--sage); }
-    .breadcrumb span { margin: 0 8px; }
-    .hero-eyebrow { display: inline-block; font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--sage); border-left: 2px solid var(--sage); padding-left: 12px; margin-bottom: 20px; }
-    .hero-title { font-family: var(--font-display); font-size: clamp(44px, 7vw, 86px); font-weight: 300; color: var(--cream); line-height: 1.1; }
-    .hero-title em { font-style: italic; color: var(--sage); }
-    .hero-sub { font-size: 16px; line-height: 1.8; color: rgba(245,240,232,0.55); margin-top: 18px; max-width: 500px; }
+    /* ── EDITORIAL HERO ── */
+    #about-hero { padding-top: var(--nav-h); background: var(--cream); overflow: hidden; border-bottom: 2px solid #111; }
+    .ah-header { max-width: 100%; padding: 36px 48px 0; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; border-bottom: 2px solid #111; padding-bottom: 18px; }
+    .ah-big-title { font-family: var(--font-body); font-size: clamp(64px, 11vw, 148px); font-weight: 700; color: #111; line-height: 0.88; letter-spacing: -0.03em; text-transform: uppercase; }
+    .ah-tagline-wrap { display: flex; align-items: center; gap: 18px; flex-shrink: 0; margin-bottom: 12px; }
+    .ah-tagline-line { width: 160px; height: 2px; background: #111; flex-shrink: 0; }
+    .ah-tagline { font-size: 11px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: #111; white-space: nowrap; }
+    .ah-body { display: grid; grid-template-columns: 260px 1fr 260px; min-height: 460px; }
+    .ah-col { padding: 28px 32px; border-right: 2px solid #111; display: flex; flex-direction: column; justify-content: space-between; }
+    .ah-col:last-child { border-right: none; }
+    .ah-col-label { font-size: 10px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: #111; margin-bottom: 16px; }
+    .ah-col-body { font-family: var(--font-body); font-size: clamp(16px, 1.6vw, 21px); font-weight: 700; line-height: 1.35; color: #111; text-transform: uppercase; }
+    .ah-col-sub { font-size: 13px; font-weight: 400; color: #555; line-height: 1.7; margin-top: 20px; text-transform: none; }
+    .ah-center-col { padding: 0; border-right: 2px solid #111; position: relative; display: flex; align-items: stretch; justify-content: center; overflow: hidden; min-height: 500px; }
+    .ah-circle-bg { width: 360px; height: 360px; border-radius: 50%; background: #1a1a2e; position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%); z-index: 0; }
+    .ah-studio-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; z-index: 1; display: block; }
+    .ah-cta-col { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 32px; gap: 16px; }
+    .ah-cta-text { font-size: 10px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: #111; line-height: 1.6; }
+    .ah-arrow-svg { width: 80px; height: 100px; stroke: #111; fill: none; stroke-width: 1.5; stroke-linecap: round; }
+    .ah-cta-btn { margin-top: 8px; background: #111; color: var(--cream); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; padding: 10px 22px; border-radius: 24px; display: inline-block; transition: var(--transition); }
+    .ah-cta-btn:hover { background: #2EC4B6; color: #111; }
+    @media (max-width: 900px) { .ah-body { grid-template-columns: 1fr; } .ah-center-col { min-height: 340px; border-right: none; border-bottom: 2px solid #111; } .ah-col { border-right: none; border-bottom: 2px solid #111; } .ah-col:last-child { border-bottom: none; } .ah-tagline-line { width: 80px; } .ah-big-title { font-size: clamp(56px, 14vw, 100px); } .ah-header { padding: 28px 20px 16px; } }
+    @media (max-width: 600px) { .ah-body { grid-template-columns: 1fr; } .ah-tagline-wrap { flex-direction: column; align-items: flex-start; gap: 8px; } .ah-tagline-line { width: 60px; } }
 
     /* ── STATS STRIP ── */
     #stats-strip { background: var(--deep); padding: 0; }
@@ -153,9 +154,9 @@
     .value-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--sage); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
     .value-card:hover::before { transform: scaleX(1); }
     .value-card:hover { border-color: rgba(122,158,126,0.3); box-shadow: 0 8px 32px rgba(0,0,0,0.06); }
-    .value-number { font-family: var(--font-display); font-size: 52px; font-weight: 300; color: rgba(122,158,126,0.15); line-height: 1; margin-bottom: -8px; }
+    .value-number { font-family: var(--font-display); font-size: 52px; font-weight: 300; color: rgba(46,196,182,0.45); line-height: 1; margin-bottom: -8px; }
     .value-icon { font-size: 28px; margin-bottom: 16px; display: block; }
-    .value-title { font-size: 18px; font-weight: 500; color: var(--deep); margin-bottom: 12px; }
+    .value-title { font-size: 18px; font-weight: 500; color: #2EC4B6; margin-bottom: 12px; }
     .value-desc { font-size: 14px; line-height: 1.8; color: var(--muted); }
 
     /* ── PHILOSOPHY SECTION ── */
@@ -184,34 +185,47 @@
     .phil-title { font-size: 15px; font-weight: 500; color: var(--cream); margin-bottom: 4px; }
     .phil-desc { font-size: 13px; line-height: 1.7; color: rgba(245,240,232,0.45); }
 
-    /* ── TEAM SECTION ── */
-    #team { padding: 100px 40px; background: var(--cream); }
-    .team-intro { font-size: 16px; line-height: 1.8; color: #555; max-width: 520px; margin-top: 20px; }
-    .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 56px; }
-    .team-card { background: white; border-radius: 4px; border: 1px solid rgba(122,158,126,0.1); overflow: hidden; transition: var(--transition); }
-    .team-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,0.08); }
-    .team-avatar {
-      width: 100%; aspect-ratio: 1;
-      background: linear-gradient(135deg, var(--sage-light), var(--sage));
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-display); font-size: 64px; font-weight: 300;
-      color: rgba(255,255,255,0.8);
-      position: relative;
-    }
-    .team-avatar.clay-avatar { background: linear-gradient(135deg, #e8a990, var(--clay)); }
-    .team-avatar.deep-avatar { background: linear-gradient(135deg, #4a6a9e, var(--deep)); }
-    .team-badge {
-      position: absolute; bottom: 12px; right: 12px;
-      background: white; border-radius: 20px;
-      padding: 4px 12px; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--charcoal); font-family: var(--font-body);
-    }
-    .team-info { padding: 24px; }
-    .team-name { font-family: var(--font-display); font-size: 24px; font-weight: 300; color: var(--deep); }
-    .team-role { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--sage); margin-top: 4px; }
-    .team-desc { font-size: 13px; line-height: 1.7; color: var(--muted); margin-top: 12px; }
-    .team-classes { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
-    .team-class-tag { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); border: 1px solid rgba(122,158,126,0.25); padding: 3px 10px; border-radius: 12px; }
+    /* ── TRAINER SPOTLIGHT ── */
+    #team { background: linear-gradient(135deg, #0d1526 0%, #1a1a2e 55%, #0f2040 100%); overflow: hidden; position: relative; }
+    #team::after { content: 'S'; position: absolute; right: -60px; top: 50%; transform: translateY(-60%); font-family: var(--font-display); font-size: 500px; font-weight: 300; color: rgba(255,255,255,0.025); line-height: 1; pointer-events: none; z-index: 0; }
+    .spotlight-wrap { max-width: 1200px; margin: 0 auto; padding: 80px 40px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; position: relative; z-index: 1; }
+    .spotlight-panel { display: none; }
+    .spotlight-panel.active { display: contents; }
+    .spotlight-left {}
+    .spotlight-label { font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase; color: #2EC4B6; border-left: 2px solid #2EC4B6; padding-left: 12px; margin-bottom: 20px; display: inline-block; }
+    .spotlight-heading { font-family: var(--font-display); font-size: clamp(36px, 4.5vw, 62px); font-weight: 300; color: #fff; line-height: 1.1; margin-bottom: 8px; }
+    .spotlight-role { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 24px; }
+    .spotlight-desc { font-size: 15px; line-height: 1.85; color: rgba(255,255,255,0.5); max-width: 420px; margin-bottom: 36px; }
+    .trainer-stats { display: flex; gap: 36px; margin-bottom: 32px; }
+    .t-stat { }
+    .t-stat-num { font-family: var(--font-display); font-size: 40px; font-weight: 300; color: #2EC4B6; line-height: 1; }
+    .t-stat-lbl { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 4px; letter-spacing: 0.06em; }
+    .trainer-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .t-chip { font-size: 11px; padding: 6px 16px; border-radius: 20px; border: 1px solid rgba(46,196,182,0.3); color: #2EC4B6; letter-spacing: 0.08em; }
+    .spotlight-right { display: flex; align-items: center; justify-content: center; position: relative; padding: 40px 0; }
+    .diamond-wrap { width: 340px; height: 340px; position: relative; flex-shrink: 0; }
+    .diamond-frame { width: 100%; height: 100%; transform: rotate(45deg); overflow: hidden; border: 1.5px solid rgba(46,196,182,0.35); position: relative; border-radius: 4px; }
+    .diamond-frame::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(46,196,182,0.12) 0%, transparent 60%); z-index: 1; }
+    .diamond-inner { width: 100%; height: 100%; transform: rotate(-45deg) scale(1.42); display: flex; align-items: center; justify-content: center; overflow: hidden; background: #0f1729; }
+    .diamond-inner img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
+    .diamond-corner { position: absolute; width: 12px; height: 12px; border: 2px solid #2EC4B6; }
+    .diamond-corner.tl { top: -1px; left: -1px; border-right: none; border-bottom: none; transform: rotate(45deg) translate(-6px,-6px); }
+    .diamond-corner.tr { top: -1px; right: -1px; border-left: none; border-bottom: none; transform: rotate(45deg) translate(6px,-6px); }
+    .diamond-corner.bl { bottom: -1px; left: -1px; border-right: none; border-top: none; transform: rotate(45deg) translate(-6px,6px); }
+    .diamond-corner.br { bottom: -1px; right: -1px; border-left: none; border-top: none; transform: rotate(45deg) translate(6px,6px); }
+    .diamond-name-tag { position: absolute; bottom: -16px; left: 50%; transform: translateX(-50%); background: #2EC4B6; color: #0d1526; font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; padding: 7px 24px; border-radius: 20px; white-space: nowrap; }
+    .deco-ring { position: absolute; width: 420px; height: 420px; border: 1px solid rgba(46,196,182,0.07); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none; }
+    .deco-ring2 { position: absolute; width: 500px; height: 500px; border: 1px dashed rgba(46,196,182,0.04); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none; }
+    /* Tab bar */
+    .trainer-tabs { display: flex; border-top: 1px solid rgba(255,255,255,0.07); margin-top: 60px; position: relative; z-index: 1; }
+    .trainer-tab { flex: 1; padding: 20px 24px; background: none; border: none; border-bottom: 2px solid transparent; color: rgba(255,255,255,0.35); font-family: var(--font-body); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.25s; display: flex; align-items: center; gap: 12px; }
+    .trainer-tab:hover { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.02); }
+    .trainer-tab.active { color: #2EC4B6; border-bottom-color: #2EC4B6; background: rgba(46,196,182,0.04); }
+    .tab-av { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: white; flex-shrink: 0; font-family: var(--font-display); }
+    .tab-meta { text-align: left; }
+    .tab-name { font-size: 13px; display: block; }
+    .tab-spec { font-size: 10px; color: rgba(255,255,255,0.25); display: block; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .trainer-tab.active .tab-spec { color: rgba(46,196,182,0.5); }
 
     /* ── CTA ── */
     #cta { padding: 100px 40px; background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 100%); text-align: center; position: relative; overflow: hidden; }
@@ -252,18 +266,21 @@
     .reveal.visible { opacity: 1; transform: none; }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 1024px) { .team-grid { grid-template-columns: repeat(2, 1fr); } .stats-inner { grid-template-columns: repeat(2, 1fr); } .stat-block { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); } .philosophy-inner { grid-template-columns: 1fr; gap: 48px; } }
+    @media (max-width: 1024px) { .spotlight-wrap { grid-template-columns: 1fr; gap: 40px; } .stats-inner { grid-template-columns: repeat(2, 1fr); } .stat-block { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); } .philosophy-inner { grid-template-columns: 1fr; gap: 48px; } .trainer-tabs { flex-wrap: wrap; } .trainer-tab { flex: 0 0 50%; } .spotlight-right { display: none; } }
     @media (max-width: 768px) {
       :root { --nav-h: 64px; }
       .nav-links { display: none; }
       .hamburger { display: flex; }
       #navbar { padding: 0 20px; }
       .hero-inner { padding: 60px 20px; }
-      #story, #values, #team, #cta { padding: 70px 20px; }
+      #story, #values, #cta { padding: 70px 20px; }
       #philosophy { padding: 70px 20px; }
       .story-grid { grid-template-columns: 1fr; gap: 40px; }
       .values-grid { grid-template-columns: 1fr; }
-      .team-grid { grid-template-columns: 1fr; }
+      .spotlight-wrap { padding: 48px 20px 0; }
+      .trainer-tabs { flex-direction: column; }
+      .trainer-tab { flex: 1; border-bottom: none; border-left: 2px solid transparent; }
+      .trainer-tab.active { border-left-color: #2EC4B6; border-bottom: none; }
       .stats-inner { grid-template-columns: repeat(2, 1fr); padding: 0 20px; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
     }
@@ -300,7 +317,7 @@
 
   <!-- NAVBAR -->
   <nav id="navbar" aria-label="Main navigation">
-    <a href="index.html" class="nav-logo">Stack<span>ly</span></a>
+    <a href="index.html" class="nav-logo"><img src="images/stackly_logo_transparent.webp" alt="Stackly" class="nav-logo-img"/></a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li class="nav-item">
@@ -317,7 +334,7 @@
       <li><a href="about.html" class="active">About Us</a></li>
       <li><a href="schedule.html">Schedule</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li><a href="schedule.html#book" class="nav-cta">Book Free Class</a></li>
+      <li><a href="login.html" class="nav-cta">Login</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Open navigation menu" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -326,14 +343,48 @@
 
   <!-- HERO -->
   <section id="about-hero">
-    <div class="hero-inner">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="index.html">Home</a><span>›</span><span>About Us</span>
-      </nav>
-      <span class="hero-eyebrow">Our story</span>
-      <h1 class="hero-title">You<br/><em>belong here.</em></h1>
-      <p class="hero-sub">Wellness is not a destination you arrive at — it's a way of living, one breath at a time. Stackly was born from a simple belief: that every person deserves a sanctuary where they can reconnect with their body, quiet their mind, and feel genuinely supported on their journey.</p>
+
+    <!-- Top header row -->
+    <div class="ah-header">
+      <h1 class="ah-big-title">About Us</h1>
+      <div class="ah-tagline-wrap">
+        <div class="ah-tagline-line"></div>
+        <span class="ah-tagline">We live by the code of wellness</span>
+      </div>
     </div>
+
+    <!-- 3-column body -->
+    <div class="ah-body">
+
+      <!-- Left column -->
+      <div class="ah-col">
+        <div>
+          <div class="ah-col-label">Meet Stackly!</div>
+          <div class="ah-col-body">Stackly is more than a studio — it's a living, breathing community built on movement, breath, and radical belonging.</div>
+          <p class="ah-col-sub">Founded in 2013, we've guided over 2,400 students through their first sun salutation, their toughest challenges, and their quietest moments of stillness. Every class, every breath, every return to the mat is celebrated here.</p>
+        </div>
+        <div style="font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:#2EC4B6;margin-top:24px;">Est. 2013 · Mumbai</div>
+      </div>
+
+      <!-- Center column — image -->
+      <div class="ah-center-col">
+        <div class="ah-circle-bg"></div>
+        <img src="images/studio-about.webp" alt="Stackly Yoga Studio" class="ah-studio-img"/>
+      </div>
+
+      <!-- Right column -->
+      <div class="ah-cta-col">
+        <span class="ah-cta-text">We dare you to<br/>step on the mat!</span>
+        <!-- hand-drawn curved arrow pointing left toward the image -->
+        <svg class="ah-arrow-svg" viewBox="0 0 80 100">
+          <path d="M65 10 C50 10, 20 30, 18 65" stroke="#111" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M10 60 L18 68 L28 58" stroke="#111" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <a href="schedule.html" class="ah-cta-btn">Book Free Class</a>
+      </div>
+
+    </div>
+
   </section>
 
   <!-- STATS STRIP -->
@@ -459,50 +510,184 @@
 
   <!-- TEAM -->
   <section id="team">
-    <div class="section-inner">
-      <p class="section-eyebrow reveal">Our Instructors</p>
-      <h2 class="section-title reveal">Teachers who <em>guide,</em><br/>not just instruct</h2>
-      <p class="team-intro reveal">Each of our certified teachers brings years of dedicated practice and a genuine passion for seeing students grow. Small classes mean they always have time to see you.</p>
-      <div class="team-grid">
-        <div class="team-card reveal">
-          <div class="team-avatar">A</div>
-          <div class="team-info">
-            <div class="team-name">Ananya Krishnan</div>
-            <div class="team-role">Lead Instructor · 9 Years</div>
-            <p class="team-desc">Trained in Mysore-style Ashtanga and Yin Yoga, Ananya brings warmth, precision, and deep anatomical knowledge to every session. Her classes feel like a conversation between teacher and student.</p>
-            <div class="team-classes">
-              <span class="team-class-tag">Hatha</span>
-              <span class="team-class-tag">Yin &amp; Restore</span>
-              <span class="team-class-tag">Meditation</span>
-            </div>
+
+    <!-- PANEL GRID -->
+    <div class="spotlight-wrap" id="spotlight-grid">
+
+      <!-- ANANYA panel (default active) -->
+      <div class="spotlight-panel active" id="panel-ananya">
+
+        <div class="spotlight-left">
+          <span class="spotlight-label">Lead Instructor · 9 years</span>
+          <h2 class="spotlight-heading">Teaching with<br/><em>presence.</em></h2>
+          <div class="spotlight-role">Ananya Krishnan &nbsp;·&nbsp; Hatha · Yin &amp; Restore · Meditation</div>
+          <p class="spotlight-desc">Trained in Mysore-style Ashtanga and Yin Yoga, Ananya brings warmth, precision, and deep anatomical knowledge to every session. Her classes feel like a quiet conversation — between teacher and student, between breath and body.</p>
+          <div class="trainer-stats">
+            <div class="t-stat"><div class="t-stat-num">9</div><div class="t-stat-lbl">Years Experience</div></div>
+            <div class="t-stat"><div class="t-stat-num">1.2k+</div><div class="t-stat-lbl">Classes Taught</div></div>
+            <div class="t-stat"><div class="t-stat-num">450+</div><div class="t-stat-lbl">Students Guided</div></div>
+          </div>
+          <div class="trainer-chips">
+            <span class="t-chip">Hatha</span>
+            <span class="t-chip">Yin &amp; Restore</span>
+            <span class="t-chip">Meditation</span>
+            <span class="t-chip">Breathwork</span>
           </div>
         </div>
-        <div class="team-card reveal">
-          <div class="team-avatar clay-avatar">R</div>
-          <div class="team-info">
-            <div class="team-name">Rahul Verma</div>
-            <div class="team-role">Senior Instructor · 7 Years</div>
-            <p class="team-desc">A former competitive athlete turned yoga practitioner, Rahul's Vinyasa classes are energetic, grounding, and uniquely sequenced every time. He has a gift for making the difficult feel achievable.</p>
-            <div class="team-classes">
-              <span class="team-class-tag">Vinyasa Flow</span>
-              <span class="team-class-tag">Hatha</span>
+
+        <div class="spotlight-right">
+          <div class="deco-ring"></div>
+          <div class="deco-ring2"></div>
+          <div class="diamond-wrap">
+            <div class="diamond-frame">
+              <div class="diamond-inner"><img src="images/slide1.webp" alt="Ananya Krishnan"/></div>
             </div>
+            <div class="diamond-corner tl"></div>
+            <div class="diamond-corner tr"></div>
+            <div class="diamond-corner bl"></div>
+            <div class="diamond-corner br"></div>
+            <div class="diamond-name-tag">Ananya Krishnan</div>
           </div>
         </div>
-        <div class="team-card reveal">
-          <div class="team-avatar deep-avatar">M</div>
-          <div class="team-info">
-            <div class="team-name">Meera Iyer</div>
-            <div class="team-role">Specialist Instructor · 11 Years</div>
-            <p class="team-desc">A certified pre/postnatal yoga specialist and breathwork coach, Meera's sessions are a sanctuary within a sanctuary. Her gentle expertise has supported hundreds of mothers through pregnancy and beyond.</p>
-            <div class="team-classes">
-              <span class="team-class-tag">Pre/Postnatal</span>
-              <span class="team-class-tag">Meditation</span>
-            </div>
+
+      </div><!-- /panel-ananya -->
+
+      <!-- RAHUL panel -->
+      <div class="spotlight-panel" id="panel-rahul">
+
+        <div class="spotlight-left">
+          <span class="spotlight-label">Senior Instructor · 7 years</span>
+          <h2 class="spotlight-heading">Movement as<br/><em>meditation.</em></h2>
+          <div class="spotlight-role">Rahul Verma &nbsp;·&nbsp; Vinyasa Flow · Hatha</div>
+          <p class="spotlight-desc">A former competitive athlete turned dedicated practitioner, Rahul brings an athlete's discipline and a yogi's heart to every class. His Vinyasa sequences are uniquely crafted each session — no two classes are ever the same.</p>
+          <div class="trainer-stats">
+            <div class="t-stat"><div class="t-stat-num">7</div><div class="t-stat-lbl">Years Experience</div></div>
+            <div class="t-stat"><div class="t-stat-num">980+</div><div class="t-stat-lbl">Classes Taught</div></div>
+            <div class="t-stat"><div class="t-stat-num">320+</div><div class="t-stat-lbl">Students Guided</div></div>
+          </div>
+          <div class="trainer-chips">
+            <span class="t-chip">Vinyasa Flow</span>
+            <span class="t-chip">Hatha</span>
+            <span class="t-chip">Power Yoga</span>
+            <span class="t-chip">Music-Driven</span>
           </div>
         </div>
-      </div>
+
+        <div class="spotlight-right">
+          <div class="deco-ring"></div>
+          <div class="deco-ring2"></div>
+          <div class="diamond-wrap">
+            <div class="diamond-frame">
+              <div class="diamond-inner"><img src="images/slide2.webp" alt="Rahul Verma"/></div>
+            </div>
+            <div class="diamond-corner tl"></div>
+            <div class="diamond-corner tr"></div>
+            <div class="diamond-corner bl"></div>
+            <div class="diamond-corner br"></div>
+            <div class="diamond-name-tag">Rahul Verma</div>
+          </div>
+        </div>
+
+      </div><!-- /panel-rahul -->
+
+      <!-- MEERA panel -->
+      <div class="spotlight-panel" id="panel-meera">
+
+        <div class="spotlight-left">
+          <span class="spotlight-label">Specialist Instructor · 11 years</span>
+          <h2 class="spotlight-heading">A sanctuary<br/><em>within a sanctuary.</em></h2>
+          <div class="spotlight-role">Meera Iyer &nbsp;·&nbsp; Pre/Postnatal · Meditation</div>
+          <p class="spotlight-desc">A certified pre/postnatal yoga specialist and trained breathwork coach, Meera's sessions hold a rare quality of safety and depth. Her gentle expertise has supported hundreds of mothers through pregnancy, birth, and beyond.</p>
+          <div class="trainer-stats">
+            <div class="t-stat"><div class="t-stat-num">11</div><div class="t-stat-lbl">Years Experience</div></div>
+            <div class="t-stat"><div class="t-stat-num">1.6k+</div><div class="t-stat-lbl">Classes Taught</div></div>
+            <div class="t-stat"><div class="t-stat-num">550+</div><div class="t-stat-lbl">Students Guided</div></div>
+          </div>
+          <div class="trainer-chips">
+            <span class="t-chip">Pre/Postnatal</span>
+            <span class="t-chip">Meditation</span>
+            <span class="t-chip">Yoga Nidra</span>
+            <span class="t-chip">Restorative</span>
+          </div>
+        </div>
+
+        <div class="spotlight-right">
+          <div class="deco-ring"></div>
+          <div class="deco-ring2"></div>
+          <div class="diamond-wrap">
+            <div class="diamond-frame">
+              <div class="diamond-inner"><img src="images/slide3.webp" alt="Meera Iyer"/></div>
+            </div>
+            <div class="diamond-corner tl"></div>
+            <div class="diamond-corner tr"></div>
+            <div class="diamond-corner bl"></div>
+            <div class="diamond-corner br"></div>
+            <div class="diamond-name-tag">Meera Iyer</div>
+          </div>
+        </div>
+
+      </div><!-- /panel-meera -->
+
+      <!-- KIRAN panel -->
+      <div class="spotlight-panel" id="panel-kiran">
+
+        <div class="spotlight-left">
+          <span class="spotlight-label">Strength Instructor · 6 years</span>
+          <h2 class="spotlight-heading">Built strong,<br/><em>from within.</em></h2>
+          <div class="spotlight-role">Kiran Sharma &nbsp;·&nbsp; Yoga Sculpt · Power Yoga</div>
+          <p class="spotlight-desc">Former national-level athlete turned strength yogi, Kiran fuses functional fitness with intentional movement to help students discover power they didn't know they had. Expect to work hard — and leave feeling invincible.</p>
+          <div class="trainer-stats">
+            <div class="t-stat"><div class="t-stat-num">6</div><div class="t-stat-lbl">Years Experience</div></div>
+            <div class="t-stat"><div class="t-stat-num">720+</div><div class="t-stat-lbl">Classes Taught</div></div>
+            <div class="t-stat"><div class="t-stat-num">280+</div><div class="t-stat-lbl">Students Guided</div></div>
+          </div>
+          <div class="trainer-chips">
+            <span class="t-chip">Yoga Sculpt</span>
+            <span class="t-chip">Power Yoga</span>
+            <span class="t-chip">Resistance</span>
+            <span class="t-chip">Functional</span>
+          </div>
+        </div>
+
+        <div class="spotlight-right">
+          <div class="deco-ring"></div>
+          <div class="deco-ring2"></div>
+          <div class="diamond-wrap">
+            <div class="diamond-frame">
+              <div class="diamond-inner"><img src="images/slide4.webp" alt="Kiran Sharma"/></div>
+            </div>
+            <div class="diamond-corner tl"></div>
+            <div class="diamond-corner tr"></div>
+            <div class="diamond-corner bl"></div>
+            <div class="diamond-corner br"></div>
+            <div class="diamond-name-tag">Kiran Sharma</div>
+          </div>
+        </div>
+
+      </div><!-- /panel-kiran -->
+
+    </div><!-- /spotlight-wrap -->
+
+    <!-- TABS -->
+    <div class="trainer-tabs">
+      <button class="trainer-tab active" data-trainer="ananya">
+        <div class="tab-av" style="background:linear-gradient(135deg,#7a9e7e,#5a7e5e);">A</div>
+        <div class="tab-meta"><span class="tab-name">Ananya Krishnan</span><span class="tab-spec">Hatha · Yin · Meditation</span></div>
+      </button>
+      <button class="trainer-tab" data-trainer="rahul">
+        <div class="tab-av" style="background:linear-gradient(135deg,#c9795a,#a05e42);">R</div>
+        <div class="tab-meta"><span class="tab-name">Rahul Verma</span><span class="tab-spec">Vinyasa · Hatha</span></div>
+      </button>
+      <button class="trainer-tab" data-trainer="meera">
+        <div class="tab-av" style="background:linear-gradient(135deg,#4a6a9e,#2a4a7e);">M</div>
+        <div class="tab-meta"><span class="tab-name">Meera Iyer</span><span class="tab-spec">Pre/Postnatal · Meditation</span></div>
+      </button>
+      <button class="trainer-tab" data-trainer="kiran">
+        <div class="tab-av" style="background:linear-gradient(135deg,#2EC4B6,#1a9990);">K</div>
+        <div class="tab-meta"><span class="tab-name">Kiran Sharma</span><span class="tab-spec">Yoga Sculpt · Strength</span></div>
+      </button>
     </div>
+
   </section>
 
   <!-- CTA -->
@@ -593,6 +778,18 @@
     hamburger.addEventListener('click', () => mobileMenu.classList.contains('open') ? closeMenu() : openMenu());
     mobileClose.addEventListener('click', closeMenu);
     mobileMenu.querySelectorAll('a').forEach(l => l.addEventListener('click', closeMenu));
+
+    /* ── TRAINER TABS ── */
+    document.querySelectorAll('.trainer-tab').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        var id = this.dataset.trainer;
+        document.querySelectorAll('.trainer-tab').forEach(function(t) { t.classList.remove('active'); });
+        this.classList.add('active');
+        document.querySelectorAll('.spotlight-panel').forEach(function(p) { p.classList.remove('active'); });
+        var panel = document.getElementById('panel-' + id);
+        if (panel) panel.classList.add('active');
+      });
+    });
 
     /* ── SCROLL REVEAL ── */
     const observer = new IntersectionObserver(entries => {

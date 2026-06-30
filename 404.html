@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -6,7 +6,7 @@
   <meta name="robots" content="noindex"/>
   <title>Page Not Found — Stackly Yoga &amp; Wellness</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --sage:       #7a9e7e;
@@ -14,8 +14,6 @@
       --clay:       #c9795a;
       --cream:      #f5f0e8;
       --deep:       #1a1a2e;
-      --charcoal:   #2d2d2d;
-      --muted:      #7a7a7a;
       --font-display: 'Cormorant Garamond', Georgia, serif;
       --font-body:    'DM Sans', system-ui, sans-serif;
       --nav-h: 72px;
@@ -23,320 +21,189 @@
       --transition: all 0.35s ease;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
     body {
       font-family: var(--font-body);
-      background: var(--deep);
+      background: #000;
       color: var(--cream);
-      min-height: 100vh;
-      display: flex; flex-direction: column;
       overflow-x: hidden;
+      display: flex; flex-direction: column;
     }
     a { text-decoration: none; color: inherit; }
 
-    /* ── NAVBAR ── */
-    #navbar {
-      position: fixed; top: 0; left: 0; right: 0; width: 100%;
-      height: var(--nav-h);
-      background: rgba(26,26,46,0.97);
-      backdrop-filter: blur(12px);
-      display: flex; align-items: center; padding: 0 40px;
-      z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .nav-logo { font-family: var(--font-display); font-size: 22px; font-weight: 300; letter-spacing: 0.15em; color: var(--cream); }
-    .nav-logo span { color: var(--sage); font-style: italic; }
-    .nav-links { display: flex; align-items: center; gap: 8px; margin: 0 auto; list-style: none; }
-    .nav-links a { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,240,232,0.65); padding: 6px 14px; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--sage); }
-    .nav-cta { background: var(--sage) !important; color: var(--deep) !important; padding: 9px 22px !important; border-radius: var(--radius); font-weight: 500 !important; }
-    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; margin-left: auto; }
-    .hamburger span { display: block; width: 24px; height: 2px; background: var(--cream); border-radius: 2px; }
 
-    /* ── MAIN 404 ── */
+    /* ── FULL-VIEWPORT HERO ── */
     main {
-      flex: 1; display: flex; align-items: center; justify-content: center;
-      padding: calc(var(--nav-h) + 48px) 40px 64px;
-      position: relative; overflow: hidden;
-    }
-
-    /* Ambient background */
-    main::before {
-      content: '';
-      position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse at 15% 30%, rgba(122,158,126,0.1) 0%, transparent 45%),
-        radial-gradient(ellipse at 85% 70%, rgba(201,121,90,0.06) 0%, transparent 40%);
-      pointer-events: none;
-    }
-
-    .page-404 {
-      max-width: 720px; width: 100%;
-      text-align: center;
-      position: relative; z-index: 1;
-    }
-
-    /* SVG Illustration */
-    .illustration {
-      width: 220px; height: 220px;
-      margin: 0 auto 40px;
-    }
-
-    .four-o-four {
-      font-family: var(--font-display);
-      font-size: clamp(80px, 18vw, 140px);
-      font-weight: 300; line-height: 1;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(122,158,126,0.4);
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
+      flex: 1;
       position: relative;
-    }
-    .four-o-four span { color: var(--sage); -webkit-text-stroke: 0; }
-
-    .error-heading {
-      font-family: var(--font-display);
-      font-size: clamp(24px, 4vw, 36px);
-      font-weight: 300; color: var(--cream);
-      margin-bottom: 16px;
-    }
-    .error-heading em { font-style: italic; color: var(--sage); }
-
-    .error-desc {
-      font-size: 16px; line-height: 1.75;
-      color: rgba(245,240,232,0.5);
-      max-width: 440px; margin: 0 auto 40px;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
     }
 
-    /* Search */
-    .search-wrap {
-      display: flex; gap: 0; max-width: 420px;
-      margin: 0 auto 40px; border-radius: var(--radius);
-      overflow: hidden; border: 1px solid rgba(122,158,126,0.3);
+    /* Background image */
+    .bg-image {
+      position: absolute; inset: 0; z-index: 0;
     }
-    .search-input {
-      flex: 1; padding: 13px 16px;
-      background: rgba(255,255,255,0.05);
-      border: none; color: var(--cream);
-      font-family: var(--font-body); font-size: 14px;
-      outline: none;
+    .bg-image img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center 20%;
+      display: block;
     }
-    .search-input::placeholder { color: rgba(245,240,232,0.3); }
-    .search-btn {
-      padding: 13px 20px; background: var(--sage);
-      border: none; color: var(--deep);
-      font-size: 13px; font-weight: 500; cursor: pointer;
-      transition: background 0.2s; letter-spacing: 0.05em;
-    }
-    .search-btn:hover { background: var(--sage-light); }
 
-    /* CTA Buttons */
-    .cta-buttons {
-      display: flex; gap: 14px; justify-content: center;
-      flex-wrap: wrap; margin-bottom: 48px;
+    /* Multi-layer dark overlay */
+    .bg-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.72) 100%);
     }
-    .btn-primary {
+
+    /* Vignette edges */
+    .bg-vignette {
+      position: absolute; inset: 0; z-index: 2;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 100%);
+    }
+
+    /* Center content */
+    .content {
+      position: relative; z-index: 3;
+      text-align: center;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 0 24px;
+      animation: riseIn 1s ease forwards;
+    }
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* Giant 404 */
+    .num-404 {
+      font-family: var(--font-body);
+      font-size: clamp(120px, 24vw, 280px);
+      font-weight: 700;
+      line-height: 0.88;
+      letter-spacing: -0.04em;
+      color: transparent;
+      -webkit-text-stroke: 2px rgba(255,255,255,0.88);
+      text-stroke: 2px rgba(255,255,255,0.88);
+      user-select: none;
+      text-transform: uppercase;
+    }
+
+    /* Subtext */
+    .sub-label {
+      font-size: clamp(11px, 1.8vw, 15px);
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+      margin-top: 20px;
+    }
+
+    /* Divider */
+    .divider {
+      width: 48px; height: 2px;
+      background: var(--sage);
+      margin: 28px auto;
+      border-radius: 2px;
+    }
+
+    /* Description */
+    .desc {
+      font-size: 15px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.5);
+      max-width: 400px;
+      margin-bottom: 36px;
+    }
+
+    /* Buttons */
+    .btn-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn-home {
       background: var(--sage); color: var(--deep);
-      padding: 14px 32px; font-size: 13px; font-weight: 500;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      border-radius: var(--radius); border: none; cursor: pointer;
+      padding: 13px 32px; font-size: 12px; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      border-radius: 28px; border: none; cursor: pointer;
       transition: var(--transition); display: inline-block;
     }
-    .btn-primary:hover { background: var(--sage-light); transform: translateY(-2px); }
-    .btn-outline {
-      background: transparent; color: var(--cream);
-      padding: 13px 32px; font-size: 13px;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      border-radius: var(--radius); border: 1px solid rgba(245,240,232,0.25);
+    .btn-home:hover { background: var(--sage-light); transform: translateY(-2px); }
+    .btn-back {
+      background: transparent; color: rgba(255,255,255,0.75);
+      padding: 12px 32px; font-size: 12px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      border-radius: 28px; border: 1px solid rgba(255,255,255,0.25);
       cursor: pointer; transition: var(--transition); display: inline-block;
     }
-    .btn-outline:hover { border-color: var(--sage); color: var(--sage); transform: translateY(-2px); }
+    .btn-back:hover { border-color: var(--sage); color: var(--sage); transform: translateY(-2px); }
 
-    /* Quick links */
-    .quick-label {
-      font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
-      color: rgba(245,240,232,0.3); margin-bottom: 16px;
-    }
-    .quick-links {
-      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
-    }
-    .quick-link {
-      font-size: 13px; color: rgba(245,240,232,0.5);
-      border: 1px solid rgba(255,255,255,0.1);
-      padding: 7px 16px; border-radius: 20px;
-      transition: var(--transition);
-    }
-    .quick-link:hover { color: var(--sage); border-color: rgba(122,158,126,0.4); }
-
-    /* ── FOOTER STRIP ── */
-    #footer-strip {
-      background: #111122;
+    /* Bottom strip */
+    .bottom-strip {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 4;
       padding: 20px 40px;
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(4px);
       flex-wrap: wrap; gap: 12px;
-      border-top: 1px solid rgba(255,255,255,0.05);
     }
-    .footer-strip-links { display: flex; gap: 20px; flex-wrap: wrap; }
-    .footer-strip-links a { font-size: 12px; color: rgba(245,240,232,0.3); transition: color 0.2s; }
-    .footer-strip-links a:hover { color: rgba(245,240,232,0.6); }
-    .footer-copy { font-size: 12px; color: rgba(245,240,232,0.25); }
+    .bottom-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .bottom-links a { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); transition: color 0.2s; }
+    .bottom-links a:hover { color: rgba(255,255,255,0.7); }
+    .bottom-copy { font-size: 11px; color: rgba(255,255,255,0.2); letter-spacing: 0.08em; }
 
-    /* ── RESPONSIVE ── */
+    /* Responsive */
     @media (max-width: 768px) {
-      :root { --nav-h: 64px; }
-      .nav-links { display: none; }
-      .hamburger { display: flex; }
-      #navbar { padding: 0 20px; }
-      main { padding-left: 20px; padding-right: 20px; }
-      #footer-strip { padding: 16px 20px; flex-direction: column; align-items: flex-start; }
+      .bottom-strip { padding: 16px 20px; }
+      .num-404 { -webkit-text-stroke: 1.5px rgba(255,255,255,0.88); }
     }
     @media (max-width: 480px) {
-      .cta-buttons { flex-direction: column; align-items: center; }
-      .btn-primary, .btn-outline { width: 100%; max-width: 280px; text-align: center; }
-      .search-wrap { flex-direction: column; border-radius: var(--radius); }
-      .search-input { border-radius: var(--radius) var(--radius) 0 0; }
-      .search-btn { border-radius: 0 0 var(--radius) var(--radius); }
+      .btn-row { flex-direction: column; align-items: center; }
+      .btn-home, .btn-back { width: 220px; text-align: center; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
-    }
-
-    /* Fade-in animation */
-    .page-404 { animation: fadeIn 0.8s ease forwards; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: none; }
-    }
-    /* Floating leaf */
-    .float-leaf {
-      animation: float 6s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(-5deg); }
-      50%       { transform: translateY(-14px) rotate(5deg); }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <nav id="navbar" aria-label="Main navigation">
-    <a href="index.html" class="nav-logo">Stack<span>ly</span></a>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="#">Classes</a></li>
-      <li><a href="#">About Us</a></li>
-      <li><a href="#">Schedule</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="#" class="nav-cta">Book Free Class</a></li>
-    </ul>
-    <button class="hamburger" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
 
-  <!-- MAIN 404 CONTENT -->
+  <!-- MAIN -->
   <main>
-    <div class="page-404">
 
-      <!-- SVG illustration: a yoga figure in a peaceful pose -->
-      <div class="illustration" aria-hidden="true">
-        <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Outer ring -->
-          <circle cx="110" cy="110" r="100" stroke="rgba(122,158,126,0.15)" stroke-width="1"/>
-          <circle cx="110" cy="110" r="80" stroke="rgba(122,158,126,0.1)" stroke-width="1" stroke-dasharray="4 4"/>
-          <!-- Ground line -->
-          <line x1="40" y1="165" x2="180" y2="165" stroke="rgba(122,158,126,0.3)" stroke-width="1.5" stroke-linecap="round"/>
-          <!-- Tree/lotus leaf shapes -->
-          <ellipse cx="90" cy="158" rx="18" ry="8" fill="rgba(122,158,126,0.2)"/>
-          <ellipse cx="132" cy="160" rx="12" ry="6" fill="rgba(122,158,126,0.15)"/>
-          <!-- Yoga figure: seated lotus -->
-          <!-- Head -->
-          <circle cx="110" cy="82" r="10" stroke="rgba(245,240,232,0.6)" stroke-width="1.5" fill="none"/>
-          <!-- Body -->
-          <line x1="110" y1="92" x2="110" y2="128" stroke="rgba(245,240,232,0.5)" stroke-width="1.5" stroke-linecap="round"/>
-          <!-- Arms raised (tree pose variation) -->
-          <path d="M110 105 Q88 95 80 80" stroke="rgba(122,158,126,0.7)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-          <path d="M110 105 Q132 95 140 80" stroke="rgba(122,158,126,0.7)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-          <!-- Hands -->
-          <circle cx="79" cy="79" r="3" fill="rgba(122,158,126,0.6)"/>
-          <circle cx="141" cy="79" r="3" fill="rgba(122,158,126,0.6)"/>
-          <!-- Crossed legs (lotus) -->
-          <path d="M110 128 Q90 140 75 155" stroke="rgba(245,240,232,0.4)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-          <path d="M110 128 Q130 140 145 155" stroke="rgba(245,240,232,0.4)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-          <!-- Floating leaves -->
-          <g class="float-leaf">
-            <ellipse cx="158" cy="95" rx="7" ry="4" fill="rgba(122,158,126,0.3)" transform="rotate(30 158 95)"/>
-          </g>
-          <g style="animation: float 8s ease-in-out infinite 2s;">
-            <ellipse cx="60" cy="100" rx="5" ry="3" fill="rgba(122,158,126,0.25)" transform="rotate(-20 60 100)"/>
-          </g>
-          <!-- Question mark aura -->
-          <text x="110" y="58" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="rgba(201,121,90,0.5)" font-style="italic">?</text>
-        </svg>
-      </div>
-
-      <div class="four-o-four">4<span>0</span>4</div>
-
-      <h1 class="error-heading">This page has <em>wandered off</em></h1>
-      <p class="error-desc">
-        The page you're looking for doesn't exist or may have been moved. Let's bring you back to your practice.
-      </p>
-
-      <!-- Search -->
-      <div class="search-wrap" role="search">
-        <input class="search-input" type="search" placeholder="Search classes, teachers…" aria-label="Search the site"/>
-        <button class="search-btn" type="submit">Search</button>
-      </div>
-
-      <!-- Primary CTAs -->
-      <div class="cta-buttons">
-        <a href="index.html" class="btn-primary">← Return Home</a>
-        <a href="contact.html" class="btn-outline">Contact Support</a>
-      </div>
-
-      <!-- Quick links -->
-      <p class="quick-label">Or jump to</p>
-      <div class="quick-links" role="navigation" aria-label="Quick links">
-        <a href="index.html#about" class="quick-link">About Us</a>
-        <a href="index.html#services" class="quick-link">All Classes</a>
-        <a href="index.html#testimonials" class="quick-link">Student Stories</a>
-        <a href="contact.html" class="quick-link">Contact</a>
-        <a href="index.html#cta" class="quick-link">Free Trial Class</a>
-      </div>
-
+    <!-- Background photo -->
+    <div class="bg-image">
+      <img src="images/slide6.webp" alt="Yoga class"/>
     </div>
+    <div class="bg-overlay"></div>
+    <div class="bg-vignette"></div>
+
+    <!-- Centered content -->
+    <div class="content">
+      <div class="num-404">404</div>
+      <p class="sub-label">You're in the wrong place</p>
+      <div class="divider"></div>
+      <p class="desc">The page you're looking for doesn't exist or has been moved. Let's bring you back to your practice.</p>
+      <div class="btn-row">
+        <a href="index.html" class="btn-home">← Return Home</a>
+        <a href="contact.html" class="btn-back">Contact Support</a>
+      </div>
+    </div>
+
+    <!-- Bottom strip -->
+    <div class="bottom-strip">
+      <div class="bottom-links">
+        <a href="index.html">Home</a>
+        <a href="classes.html">Classes</a>
+        <a href="contact.html">Contact</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms &amp; Conditions</a>
+      </div>
+      <p class="bottom-copy">© 2026 Stackly Yoga &amp; Wellness</p>
+    </div>
+
   </main>
 
-  <!-- FOOTER STRIP -->
-  <footer id="footer-strip">
-    <div class="footer-strip-links">
-      <a href="index.html">Home</a>
-      <a href="contact.html">Contact</a>
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms &amp; Conditions</a>
-      <a href="#">Sitemap</a>
-    </div>
-    <p class="footer-copy">© 2026 Stackly Yoga &amp; Wellness</p>
-  </footer>
-
-  <script>
-    /* ── SCROLL REVEAL ── */
-    window.addEventListener('scroll', () => {
-      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
-    });
-
-    /* ── SEARCH HANDLER ── */
-    document.querySelector('.search-btn').addEventListener('click', () => {
-      const val = document.querySelector('.search-input').value.trim();
-      if (val) {
-        // In a real site this would search; for now redirect home
-        window.location.href = 'index.html';
-      } else {
-        document.querySelector('.search-input').focus();
-      }
-    });
-    document.querySelector('.search-input').addEventListener('keydown', e => {
-      if (e.key === 'Enter') document.querySelector('.search-btn').click();
-    });
-  </script>
 </body>
 </html>

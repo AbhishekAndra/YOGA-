@@ -6,6 +6,7 @@
   <title>Schedule — Stackly Yoga &amp; Wellness Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
   <style>
     :root {
       --sage:       #7a9e7e;
@@ -35,8 +36,8 @@
     /* ── NAVBAR ── */
     #navbar { position: fixed; top: 0; left: 0; right: 0; width: 100%; height: var(--nav-h); background: rgba(26,26,46,0.97); backdrop-filter: blur(12px); display: flex; align-items: center; padding: 0 40px; z-index: 1000; transition: box-shadow 0.3s; }
     #navbar.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.3); }
-    .nav-logo { font-family: var(--font-display); font-size: 22px; font-weight: 300; letter-spacing: 0.15em; color: var(--cream); }
-    .nav-logo span { color: var(--sage); font-style: italic; }
+    .nav-logo { display: flex; align-items: center; }
+    .nav-logo-img { height: 46px; width: auto; }
     .nav-links { display: flex; align-items: center; gap: 8px; margin: 0 auto; list-style: none; }
     .nav-links a { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,240,232,0.75); padding: 6px 14px; position: relative; transition: var(--transition); }
     .nav-links a:hover, .nav-links a.active { color: var(--sage); }
@@ -71,47 +72,56 @@
     .mobile-cta { display: block; width: 100%; background: var(--sage); color: var(--deep); text-align: center; padding: 14px; font-size: 14px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; border-radius: var(--radius); }
     .mobile-close { position: absolute; top: 22px; right: 20px; background: none; border: none; cursor: pointer; color: var(--cream); font-size: 28px; line-height: 1; }
 
-    /* ── HERO ── */
-    #schedule-hero {
-      min-height: 380px;
-      padding-top: var(--nav-h);
-      background: linear-gradient(160deg, #1a1a2e 0%, #0f3460 60%, #1a1a2e 100%);
-      display: flex; align-items: center;
-      position: relative; overflow: hidden;
+    /* ── EDITORIAL HERO ── */
+    #schedule-hero { padding-top: var(--nav-h); background: var(--cream); overflow: hidden; }
+
+    /* Top title bar */
+    .sh-topbar { display: flex; justify-content: space-between; align-items: flex-end; padding: 32px 48px 20px; border-bottom: 2px solid #111; }
+    .sh-title-left { font-family: var(--font-body); font-size: clamp(52px, 9vw, 128px); font-weight: 700; color: #111; line-height: 0.88; letter-spacing: -0.03em; text-transform: uppercase; }
+    .sh-title-right { text-align: right; }
+    .sh-title-right-big { font-family: var(--font-body); font-size: clamp(52px, 9vw, 128px); font-weight: 700; color: #111; line-height: 0.88; letter-spacing: -0.03em; text-transform: uppercase; }
+    .sh-tagline { font-size: 11px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: #555; margin-top: 16px; display: flex; align-items: center; gap: 14px; }
+    .sh-tagline::before { content: ''; display: block; width: 40px; height: 2px; background: #2EC4B6; }
+
+    /* Class-type nav row */
+    .sh-nav { display: flex; justify-content: space-between; align-items: center; padding: 0 48px; border-bottom: 2px solid #111; overflow-x: auto; }
+    .sh-nav::-webkit-scrollbar { display: none; }
+    .sh-nav-item { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #555; padding: 16px 0; border-bottom: 2px solid transparent; margin-bottom: -2px; cursor: pointer; white-space: nowrap; transition: var(--transition); flex-shrink: 0; background: none; border-top: none; border-left: none; border-right: none; font-family: var(--font-body); }
+    .sh-nav-item:hover { color: #111; }
+    .sh-nav-item.active { color: #111; border-bottom-color: #111; }
+
+    /* Full-width swiper image */
+    .sh-image-wrap { position: relative; height: 62vh; min-height: 360px; overflow: hidden; }
+    .sh-swiper { width: 100%; height: 100%; }
+    .sh-swiper .swiper-slide { position: relative; overflow: hidden; }
+    .sh-swiper .swiper-slide img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block; filter: brightness(0.55); transition: transform 6s ease; }
+    .sh-swiper .swiper-slide-active img { transform: scale(1.06); }
+    .sh-swiper .swiper-pagination { bottom: 14px; left: 48px; width: auto; z-index: 10; }
+    .sh-swiper .swiper-pagination-bullet { background: rgba(255,255,255,0.4); opacity: 1; width: 6px; height: 6px; transition: all 0.3s; }
+    .sh-swiper .swiper-pagination-bullet-active { background: #2EC4B6; width: 24px; border-radius: 3px; }
+    .sh-image-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.15) 55%, transparent 100%); pointer-events: none; z-index: 2; }
+
+    /* Bottom text overlay */
+    .sh-overlay-text { position: absolute; bottom: 0; left: 0; right: 0; padding: 32px 48px; display: flex; justify-content: space-between; align-items: flex-end; }
+    .sh-overlay-left { display: flex; align-items: flex-start; gap: 14px; }
+    .sh-dot { width: 10px; height: 10px; border-radius: 50%; background: #2EC4B6; flex-shrink: 0; margin-top: 6px; }
+    .sh-overlay-label { font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
+    .sh-overlay-desc { font-family: var(--font-display); font-size: clamp(22px, 3.5vw, 40px); font-weight: 300; color: #fff; line-height: 1.2; max-width: 580px; }
+    .sh-overlay-desc em { font-style: italic; color: #2EC4B6; }
+    .sh-overlay-right { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+    .sh-stat { text-align: right; }
+    .sh-stat-num { font-family: var(--font-display); font-size: 36px; font-weight: 300; color: #fff; line-height: 1; }
+    .sh-stat-lbl { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-top: 3px; }
+    .sh-cta-pill { background: #2EC4B6; color: #111; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 10px 24px; border-radius: 24px; transition: var(--transition); display: inline-block; }
+    .sh-cta-pill:hover { background: #fff; }
+
+    @media (max-width: 768px) {
+      .sh-topbar { padding: 24px 20px 16px; flex-direction: column; align-items: flex-start; gap: 0; }
+      .sh-title-right { text-align: left; }
+      .sh-nav { padding: 0 20px; gap: 20px; }
+      .sh-overlay-text { padding: 20px; flex-direction: column; gap: 16px; align-items: flex-start; }
+      .sh-overlay-right { align-items: flex-start; flex-direction: row; gap: 20px; }
     }
-    #schedule-hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(circle at 75% 35%, rgba(122,158,126,0.12) 0%, transparent 45%);
-      pointer-events: none;
-    }
-    .hero-inner { max-width: 1200px; margin: 0 auto; padding: 70px 40px; position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-    .hero-left { }
-    .breadcrumb { font-size: 12px; color: rgba(245,240,232,0.45); margin-bottom: 18px; letter-spacing: 0.1em; }
-    .breadcrumb a { color: var(--sage); }
-    .breadcrumb span { margin: 0 8px; }
-    .hero-eyebrow { display: inline-block; font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--sage); border-left: 2px solid var(--sage); padding-left: 12px; margin-bottom: 20px; }
-    .hero-title { font-family: var(--font-display); font-size: clamp(40px, 6vw, 76px); font-weight: 300; color: var(--cream); line-height: 1.1; }
-    .hero-title em { font-style: italic; color: var(--sage); }
-    .hero-sub { font-size: 15px; line-height: 1.85; color: rgba(245,240,232,0.55); margin-top: 18px; }
-    .hero-right { }
-    .intro-card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(122,158,126,0.2);
-      border-radius: 6px; padding: 32px;
-    }
-    .intro-card-title { font-family: var(--font-display); font-size: 20px; font-weight: 300; color: var(--cream); margin-bottom: 16px; }
-    .intro-list { list-style: none; }
-    .intro-list li { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 14px; color: rgba(245,240,232,0.65); }
-    .intro-list li:last-child { border-bottom: none; }
-    .intro-list li span { color: var(--sage); font-size: 16px; flex-shrink: 0; }
-    .intro-free-badge {
-      margin-top: 20px; padding: 16px 20px;
-      background: rgba(122,158,126,0.15); border: 1px solid rgba(122,158,126,0.3);
-      border-radius: 4px; text-align: center;
-    }
-    .free-badge-text { font-size: 13px; color: var(--sage); font-weight: 500; letter-spacing: 0.05em; }
-    .free-badge-sub { font-size: 12px; color: rgba(245,240,232,0.4); margin-top: 4px; }
 
     /* ── FILTER BAR ── */
     .filter-wrap { background: white; border-bottom: 1px solid rgba(122,158,126,0.12); position: sticky; top: var(--nav-h); z-index: 100; box-shadow: 0 2px 16px rgba(0,0,0,0.05); }
@@ -296,7 +306,7 @@
 
   <!-- NAVBAR -->
   <nav id="navbar" aria-label="Main navigation">
-    <a href="index.html" class="nav-logo">Stack<span>ly</span></a>
+    <a href="index.html" class="nav-logo"><img src="images/stackly_logo_transparent.webp" alt="Stackly" class="nav-logo-img"/></a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li class="nav-item">
@@ -313,7 +323,7 @@
       <li><a href="about.html">About Us</a></li>
       <li><a href="schedule.html" class="active">Schedule</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li><a href="#book" class="nav-cta">Book Free Class</a></li>
+      <li><a href="login.html" class="nav-cta">Login</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Open navigation menu" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -322,32 +332,46 @@
 
   <!-- HERO -->
   <section id="schedule-hero">
-    <div class="hero-inner">
-      <div class="hero-left">
-        <nav class="breadcrumb" aria-label="Breadcrumb">
-          <a href="index.html">Home</a><span>›</span><span>Schedule</span>
-        </nav>
-        <span class="hero-eyebrow">Weekly timetable</span>
-        <h1 class="hero-title">Find your<br/><em>rhythm.</em></h1>
-        <p class="hero-sub">18 weekly classes across six styles — from early morning stillness to evening flow. Filter by your favourite style or level, and find a time that fits your life. Just show up as you are.</p>
+
+    <!-- Title bar -->
+    <div class="sh-topbar">
+      <h1 class="sh-title-left">Book<br/>Your</h1>
+      <div class="sh-title-right">
+        <div class="sh-title-right-big">Class</div>
+        <div class="sh-tagline">18 sessions weekly · 6 unique styles</div>
       </div>
-      <div class="hero-right">
-        <div class="intro-card">
-          <div class="intro-card-title">Before you arrive</div>
-          <ul class="intro-list">
-            <li><span>✓</span>No equipment needed — mats and props provided</li>
-            <li><span>✓</span>No prior experience required for All Levels classes</li>
-            <li><span>✓</span>Small groups: maximum 8–16 students per class</li>
-            <li><span>✓</span>Arrive 10 minutes early for your first visit</li>
-            <li><span>✓</span>Certified instructors in every session</li>
-          </ul>
-          <div class="intro-free-badge">
-            <div class="free-badge-text">Your first class is completely free</div>
-            <div class="free-badge-sub">No credit card. No commitment.</div>
+    </div>
+
+    <!-- Full-width hero swiper -->
+    <div class="sh-image-wrap">
+      <div class="swiper sh-swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><img src="images/slide1.webp" alt="Yoga class 1"/></div>
+          <div class="swiper-slide"><img src="images/slide2.webp" alt="Yoga class 2"/></div>
+          <div class="swiper-slide"><img src="images/slide3.webp" alt="Yoga class 3"/></div>
+          <div class="swiper-slide"><img src="images/slide4.webp" alt="Yoga class 4"/></div>
+          <div class="swiper-slide"><img src="images/slide5.webp" alt="Yoga class 5"/></div>
+          <div class="swiper-slide"><img src="images/slide6.webp" alt="Yoga class 6"/></div>
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+      <div class="sh-image-overlay"></div>
+      <div class="sh-overlay-text">
+        <div class="sh-overlay-left">
+          <div class="sh-dot"></div>
+          <div>
+            <div class="sh-overlay-label">Weekly Schedule</div>
+            <div class="sh-overlay-desc">Find your <em>rhythm.</em><br/>Move. Breathe. Return.</div>
           </div>
+        </div>
+        <div class="sh-overlay-right">
+          <div class="sh-stat"><div class="sh-stat-num">18</div><div class="sh-stat-lbl">Classes / Week</div></div>
+          <div class="sh-stat"><div class="sh-stat-num">4</div><div class="sh-stat-lbl">Expert Trainers</div></div>
+          <a href="#book" class="sh-cta-pill">Book Free →</a>
         </div>
       </div>
     </div>
+
   </section>
 
   <!-- FILTER BAR -->
@@ -763,7 +787,18 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script>
+    /* ── HERO SWIPER ── */
+    new Swiper('.sh-swiper', {
+      loop: true,
+      speed: 900,
+      autoplay: { delay: 3800, disableOnInteraction: false },
+      pagination: { el: '.sh-swiper .swiper-pagination', clickable: true },
+      effect: 'fade',
+      fadeEffect: { crossFade: true }
+    });
+
     /* ── NAVBAR SCROLL ── */
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.scrollY > 20); });
@@ -848,6 +883,22 @@
     });
     ['bname','bemail'].forEach(id => {
       document.getElementById(id).addEventListener('input', function() { this.style.borderColor = ''; });
+    });
+
+    /* ── HERO NAV → FILTER SYNC ── */
+    document.querySelectorAll('.sh-nav-item').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.sh-nav-item').forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        var f = this.dataset.filter;
+        activeClass = f;
+        activeLevel = null;
+        document.querySelectorAll('[data-filter-type="class"]').forEach(function(b) { b.classList.remove('active'); });
+        var match = document.querySelector('[data-filter-type="class"][data-filter="' + f + '"]');
+        if (match) match.classList.add('active');
+        applyFilters();
+        document.getElementById('schedule-main').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
     });
 
     /* ── SCROLL REVEAL ── */
