@@ -87,14 +87,14 @@
     }
     /* Large overlapping title */
     .ch-title {
-      position: absolute; top: 0; left: 0; right: 0;
+      position: absolute; top: clamp(96px, 14vh, 140px); left: 0; right: 0;
       z-index: 3;
-      padding: 20px 32px 0;
+      padding: 0 48px;
       font-family: var(--font-body);
-      font-size: clamp(72px, 16vw, 200px);
+      font-size: clamp(64px, 10vw, 128px);
       font-weight: 700;
-      line-height: 0.88;
-      letter-spacing: -0.03em;
+      line-height: 0.95;
+      letter-spacing: -0.01em;
       text-transform: uppercase;
       color: #2EC4B6;
       pointer-events: none;
@@ -121,7 +121,7 @@
       z-index: 2; pointer-events: none;
     }
     @media (max-width: 768px) {
-      .ch-title { font-size: clamp(52px, 18vw, 100px); padding: 16px 20px 0; }
+      .ch-title { top: 86px; font-size: clamp(46px, 15vw, 82px); padding: 0 20px; line-height: 1; }
       .ch-meta-left { left: 20px; bottom: 20px; }
       .ch-meta-right { right: 20px; bottom: 16px; font-size: 22px; }
     }
@@ -277,6 +277,8 @@
     .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08); }
     .footer-brand-name { font-family: var(--font-display); font-size: 24px; font-weight: 300; letter-spacing: 0.1em; color: var(--cream); }
     .footer-brand-name span { color: var(--sage); font-style: italic; }
+    .footer-brand-logo{display:inline-flex;align-items:center;}
+    .footer-brand-logo img{height:34px;width:auto;display:block;}
     .footer-tagline { font-size: 13px; color: rgba(245,240,232,0.4); line-height: 1.7; margin-top: 12px; max-width: 240px; }
     .footer-col-title { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--sage); margin-bottom: 20px; }
     .footer-links { list-style: none; }
@@ -595,7 +597,7 @@
   <footer id="footer">
     <div class="footer-grid">
       <div>
-        <div class="footer-brand-name">Stack<span>ly</span></div>
+        <a href="index.html" class="footer-brand-logo" aria-label="Stackly home"><img src="images/stackly_logo_transparent.webp" alt="Stackly"/></a>
         <p class="footer-tagline">A sanctuary for mindful movement and conscious living.</p>
       </div>
       <div>

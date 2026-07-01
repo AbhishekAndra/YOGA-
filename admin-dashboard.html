@@ -22,6 +22,7 @@
     /* ─── SIDEBAR ─── */
     .sidebar{width:var(--sidebar-w);background:var(--sidebar);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:100;}
     .sidebar-logo{padding:22px 20px 18px;border-bottom:1px solid rgba(255,255,255,0.06);}
+    .sidebar-logo a{display:inline-flex;align-items:center;}
     .sidebar-logo img{height:36px;width:auto;}
     .sidebar-nav{flex:1;padding:10px 12px;overflow-y:auto;}
     .sec-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:16px 10px 6px;}
@@ -151,7 +152,7 @@
 <!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="sidebar-logo">
-    <img src="images/stackly_logo_transparent.webp" alt="Stackly"/>
+    <a href="index.html" aria-label="Stackly home"><img src="images/stackly_logo_transparent.webp" alt="Stackly"/></a>
   </div>
   <nav class="sidebar-nav">
     <div class="sec-label">Main</div>

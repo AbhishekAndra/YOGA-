@@ -210,6 +210,9 @@
     }
     .form-input::placeholder { color: rgba(245,240,232,0.25); }
     .form-input:focus, .form-select:focus { border-color: var(--sage); box-shadow: 0 0 0 3px rgba(122,158,126,0.15); }
+    .form-input.error, .form-select.error { border-color: #e53e3e; box-shadow: 0 0 0 3px rgba(229,62,62,0.16); }
+    .form-error { display: none; margin-top: 6px; font-size: 12px; color: #e53e3e; }
+    .form-error.show { display: block; }
     .form-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0l6 8 6-8z' fill='rgba(181,207,183,0.6)'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; cursor: pointer; }
     .form-select option { background: var(--deep); color: var(--cream); }
     .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -232,6 +235,8 @@
     .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08); }
     .footer-brand-name { font-family: var(--font-display); font-size: 24px; font-weight: 300; letter-spacing: 0.1em; color: var(--cream); }
     .footer-brand-name span { color: var(--sage); font-style: italic; }
+    .footer-brand-logo{display:inline-flex;align-items:center;}
+    .footer-brand-logo img{height:34px;width:auto;display:block;}
     .footer-tagline { font-size: 13px; color: rgba(245,240,232,0.4); line-height: 1.7; margin-top: 12px; max-width: 240px; }
     .footer-col-title { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--sage); margin-bottom: 20px; }
     .footer-links { list-style: none; }
@@ -686,10 +691,12 @@
             <div class="form-group">
               <label class="form-label" for="bname">Full Name *</label>
               <input class="form-input" type="text" id="bname" placeholder="Your name" required autocomplete="name"/>
+              <div class="form-error" id="bname-error">Please enter your full name.</div>
             </div>
             <div class="form-group">
               <label class="form-label" for="bemail">Email *</label>
               <input class="form-input" type="email" id="bemail" placeholder="you@example.com" required autocomplete="email"/>
+              <div class="form-error" id="bemail-error">Please enter a valid email address.</div>
             </div>
           </div>
           <div class="form-group">
@@ -703,6 +710,7 @@
               <option>Yoga Sculpt — Advanced</option>
               <option>Pre/Postnatal — Specialist</option>
             </select>
+            <div class="form-error" id="bclass-error">Please select a class style.</div>
           </div>
           <div class="form-group">
             <label class="form-label" for="blevel">Experience Level</label>
@@ -713,6 +721,7 @@
               <option>Regular Practitioner — 6+ months</option>
               <option>Returning — coming back after a break</option>
             </select>
+            <div class="form-error" id="blevel-error">Please select your experience level.</div>
           </div>
           <button type="submit" class="form-submit">Reserve My Spot — It's Free →</button>
           <p class="form-note">We'll send your confirmation within 60 minutes. No spam, ever.</p>
@@ -730,7 +739,7 @@
   <footer id="footer">
     <div class="footer-grid">
       <div>
-        <div class="footer-brand-name">Stack<span>ly</span></div>
+        <a href="index.html" class="footer-brand-logo" aria-label="Stackly home"><img src="images/stackly_logo_transparent.webp" alt="Stackly"/></a>
         <p class="footer-tagline">A sanctuary for mindful movement and conscious living, in the heart of the city.</p>
       </div>
       <div>
@@ -864,16 +873,62 @@
     });
 
     /* ── BOOKING FORM ── */
+    function showBookingError(inputId, errorId, message) {
+      const input = document.getElementById(inputId);
+      const error = document.getElementById(errorId);
+      if (!input || !error) return;
+      input.classList.add('error');
+      error.textContent = message;
+      error.classList.add('show');
+    }
+
+    function clearBookingError(inputId, errorId) {
+      const input = document.getElementById(inputId);
+      const error = document.getElementById(errorId);
+      if (!input || !error) return;
+      input.classList.remove('error');
+      error.classList.remove('show');
+    }
+
     document.getElementById('bookingForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const name = document.getElementById('bname').value.trim();
       const email = document.getElementById('bemail').value.trim();
+      const classStyle = document.getElementById('bclass').value;
+      const level = document.getElementById('blevel').value;
       const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!name || !emailRx.test(email)) {
-        if (!name) document.getElementById('bname').style.borderColor = 'var(--clay)';
-        if (!emailRx.test(email)) document.getElementById('bemail').style.borderColor = 'var(--clay)';
-        return;
+      let valid = true;
+
+      if (!name) {
+        showBookingError('bname', 'bname-error', 'Please enter your full name.');
+        valid = false;
+      } else {
+        clearBookingError('bname', 'bname-error');
       }
+
+      if (!emailRx.test(email)) {
+        showBookingError('bemail', 'bemail-error', 'Please enter a valid email address.');
+        valid = false;
+      } else {
+        clearBookingError('bemail', 'bemail-error');
+      }
+
+      if (!classStyle) {
+        showBookingError('bclass', 'bclass-error', 'Please select a class style.');
+        valid = false;
+      } else {
+        clearBookingError('bclass', 'bclass-error');
+      }
+
+      if (!level) {
+        showBookingError('blevel', 'blevel-error', 'Please select your experience level.');
+        valid = false;
+      } else {
+        clearBookingError('blevel', 'blevel-error');
+      }
+
+      if (!valid) return;
+
       const btn = this.querySelector('.form-submit');
       btn.textContent = 'Reserving your spot…'; btn.disabled = true;
       setTimeout(() => {
@@ -881,8 +936,15 @@
         document.getElementById('bookSuccess').classList.add('show');
       }, 1200);
     });
-    ['bname','bemail'].forEach(id => {
-      document.getElementById(id).addEventListener('input', function() { this.style.borderColor = ''; });
+    [
+      ['bname', 'bname-error', 'input'],
+      ['bemail', 'bemail-error', 'input'],
+      ['bclass', 'bclass-error', 'change'],
+      ['blevel', 'blevel-error', 'change']
+    ].forEach(([inputId, errorId, eventName]) => {
+      document.getElementById(inputId).addEventListener(eventName, function() {
+        clearBookingError(inputId, errorId);
+      });
     });
 
     /* ── HERO NAV → FILTER SYNC ── */
